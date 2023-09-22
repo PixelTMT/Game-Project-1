@@ -1,2 +1,3 @@
 # Game-Project-1
-Just a collage project
+Just a college project
+
