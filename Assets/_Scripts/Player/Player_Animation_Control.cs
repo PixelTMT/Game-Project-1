@@ -19,7 +19,7 @@ public class Player_Animation_Control : MonoBehaviour
 
     void Start()
     {
-        //_animator = GetComponent<Animator>();
+        _Current_animation = new PlayerAnimation();
     }
     public void Grounded(bool ground)
     {
@@ -44,13 +44,21 @@ public class Player_Animation_Control : MonoBehaviour
         Debug.Log($"Name {_Event[0]} | Type : {_Event[1]}");
         if(_Event[0] == "knock")
         {
-            PlayerAnimation.knock = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+            _Current_animation.knock  = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+        }
+        else if (_Event[0] == "Shoting")
+        {
+            _Current_animation.shoting = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
         }
     }
-    public class PlayerAnimation
+    public void Shot()
     {
-        public static bool idle, jumping, running, shoting, knock;
+        _animator.SetTrigger("Shot");
     }
+}
+public class PlayerAnimation
+{
+    public bool idle, jumping, running, shoting, knock, busy;
 }
 
 

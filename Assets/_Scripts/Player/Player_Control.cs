@@ -14,7 +14,7 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _GravityPower = 1.5f;
     [SerializeField]
-    float _KnockPower =10f;
+    float _KnockPower = 10f;
     [Header("Movement")]
     [SerializeField]
     float _MovementSpeed = 5f;
@@ -23,7 +23,9 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _jumpForce = 5f;
     [SerializeField]
-    LayerMask _layerMask;
+    LayerMask _GroundlayerMask;
+    [SerializeField]
+    float _GroundDetectLength = 2.5f;
 
     [Header("Camera")]
     [SerializeField]
@@ -31,7 +33,14 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _cameraDistance = 5f;
     public float _cameraSensitivity = 4f;
+    [SerializeField]
+    Vector3 _camOffset;
+    [SerializeField]
+    Transform _camVision;
+    //[SerializeField]
+    //LayerMask _EnemylayerMask;
 
+    Vector3 _closestEnemyPostition = Vector3.zero;
     bool _grounded = true;
     Transform _player;
     Rigidbody _rb;
@@ -46,21 +55,48 @@ public class Player_Control : MonoBehaviour
     void Update()
     {
         movecam();
-        Jumping();
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        if (!_animation._Current_animation.busy)
+        {
+            Jumping();
+            Moving_Control(Time.deltaTime);
+        }
+
+        Shoting();
     }
+
+    private void Shoting()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Vector3 target = Vector3.zero;
+            if (_closestEnemyPostition == Vector3.zero)
+            {
+                target = _player.position - _camera.position;
+            }
+            else target = _closestEnemyPostition - _player.position;
+
+            _rb.velocity = Vector3.zero;
+            Quaternion rot = Quaternion.LookRotation(target);
+            Quaternion lookTo = Quaternion.Euler(0, rot.eulerAngles.y, 0);
+            _player.rotation = lookTo;
+            _animation.Shot();
+        }
+    }
+
     private void FixedUpdate()
     {
+        AimEnemy();
+        _EnemyList.Clear();
         GroundCheck();
         Gravity();
-        Moving_Control(Time.fixedDeltaTime);
-        
+
     }
     private void GroundCheck()
     {
         Ray ray = new Ray(_player.position, Vector3.down);
-        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, 2.5f, _layerMask) && hit.collider.tag == "Ground";
+        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask) && hit.collider.tag == "Ground";
         _animation.Grounded(_grounded);
     }
 
@@ -79,17 +115,17 @@ public class Player_Control : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * _cameraSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * _cameraSensitivity;
 
-        float currentRotationX = _camera.transform.eulerAngles.x;
+        float currentRotationX = _camera.eulerAngles.x;
 
         currentRotationX -= mouseY;
         currentRotationX = Mathf.Clamp(currentRotationX, 0, 70);
 
-        Quaternion rotation = Quaternion.Euler(currentRotationX, _camera.transform.eulerAngles.y + mouseX, 0);
-        _camera.transform.rotation = rotation;
+        Quaternion rotation = Quaternion.Euler(currentRotationX, _camera.eulerAngles.y + mouseX, 0);
+        _camera.rotation = _camVision.rotation = rotation;
 
-        Vector3 desiredPosition = _player.position - rotation * Vector3.forward * _cameraDistance;
+        Vector3 desiredPosition = (_player.position - rotation * Vector3.forward * _cameraDistance) + _camOffset;
 
-        _camera.transform.position = desiredPosition;
+        _camera.position = _camVision.position = desiredPosition;
     }
     float horizontal = 0;
     float vertical = 0;
@@ -114,11 +150,40 @@ public class Player_Control : MonoBehaviour
         _player.Translate(moveDirection * _MovementSpeed * time, Space.World);
 
         Quaternion rotation = Quaternion.LookRotation(moveDirection);
-        _player.rotation = Quaternion.Slerp(_player.rotation, rotation, Time.deltaTime * _character_rotate_speed);
+        _player.rotation = Quaternion.Slerp(_player.rotation, rotation, time * _character_rotate_speed);
     }
     void Gravity()
     {
         if (!_grounded) _rb.velocity += Vector3.down * _GravityPower;
+    }
+    List<Transform> _EnemyList = new List<Transform>();
+    public void AddEnemyList(Transform transform)
+    {
+        if (!_EnemyList.Contains(transform))
+            _EnemyList.Add(transform);
+    }
+    private void AimEnemy()
+    {
+        float closest_Enemy_dist = float.MaxValue;
+        Vector3 closest_Enemy = Vector3.zero;
+        foreach (Transform enemy in _EnemyList)
+        {
+            // Check FOV
+            var direction = enemy.position - _player.position;
+            Ray ray = new Ray(_player.position, direction);
+            Debug.DrawRay(_player.position, direction);
+            if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Enemy"))
+            {
+                // Get Closest
+                float dist = Vector3.Distance(enemy.position, _player.position);
+                if (dist < closest_Enemy_dist)
+                {
+                    closest_Enemy_dist = dist;
+                    closest_Enemy = enemy.position;
+                }
+            }
+        }
+        _closestEnemyPostition = closest_Enemy;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -127,10 +192,6 @@ public class Player_Control : MonoBehaviour
         {
             TakeDamage(collision.transform);
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log(other.name);
     }
 
     private void TakeDamage(Transform source)

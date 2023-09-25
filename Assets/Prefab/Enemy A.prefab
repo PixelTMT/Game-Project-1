@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2029620491}
   - component: {fileID: 2029620492}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackHitBox
   m_TagString: Damage
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 658758941338599008}
   - component: {fileID: 4987004907231142907}
   - component: {fileID: 3837688358521336652}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1986497216692069807}
   - component: {fileID: 591753752097807656}
   - component: {fileID: 9072232185468690447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4915436396330039424}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1294107606797622406}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_Body_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4690694530042623586}
   - component: {fileID: 2371581214045102305}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Vision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1741229723279475772}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_Foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 480843357239351726}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,6 +388,51 @@ Transform:
   m_Father: {fileID: 8775338082651381468}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3884525057887682791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7792803066040082082}
+  - component: {fileID: 8939919141377014583}
+  m_Layer: 6
+  m_Name: HardPoint
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7792803066040082082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3884525057887682791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 46763085769862822}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8939919141377014583
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3884525057887682791}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 6, z: 6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4163170306475063348
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +445,7 @@ GameObject:
   - component: {fileID: 2243590451573413525}
   - component: {fileID: 2243590451573413522}
   - component: {fileID: 7876541008778109459}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy A
   m_TagString: Damage
   m_Icon: {fileID: 0}
@@ -422,6 +467,7 @@ Transform:
   - {fileID: 8775338082651381468}
   - {fileID: 4690694530042623586}
   - {fileID: 2029620491}
+  - {fileID: 7792803066040082082}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -480,7 +526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 396035105507000934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_Foot_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3236009112117024278}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -543,7 +589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5984005359445261404}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_Foot_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +622,7 @@ GameObject:
   - component: {fileID: 4019625708457680498}
   - component: {fileID: 5485484506423557016}
   - component: {fileID: 2186649661176285997}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -657,7 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1881357024480659619}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bone_Foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -692,7 +738,7 @@ GameObject:
   - component: {fileID: 8775338082651381468}
   - component: {fileID: 2243590451800140145}
   - component: {fileID: 5749865479255701166}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}

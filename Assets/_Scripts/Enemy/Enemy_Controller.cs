@@ -53,6 +53,7 @@ public class Enemy_Controller : MonoBehaviour
         yield return new WaitForSeconds(10f);
         _Target = null;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
