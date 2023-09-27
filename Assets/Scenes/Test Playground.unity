@@ -1863,10 +1863,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 323530725, guid: 6e6cfd9af68847644aa3bce3df77d8b1, type: 3}
-      propertyPath: m_angle
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 411649009, guid: 6e6cfd9af68847644aa3bce3df77d8b1, type: 3}
       propertyPath: _camera
       value: 

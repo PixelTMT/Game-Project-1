@@ -171,9 +171,9 @@ public class Player_Control : MonoBehaviour
             // Check FOV
             var direction = enemy.position - _player.position;
             Ray ray = new Ray(_player.position, direction);
-            Debug.DrawRay(_player.position, direction);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Enemy"))
             {
+                Debug.DrawRay(_player.position, direction);
                 // Get Closest
                 float dist = Vector3.Distance(enemy.position, _player.position);
                 if (dist < closest_Enemy_dist)
