@@ -37,8 +37,8 @@ public class Player_Control : MonoBehaviour
     Vector3 _camOffset;
     [SerializeField]
     Transform _camVision;
-    //[SerializeField]
-    //LayerMask _EnemylayerMask;
+    [SerializeField]
+    Transform _faceVision;
 
     Vector3 _closestEnemyPostition = Vector3.zero;
     bool _grounded = true;
@@ -87,11 +87,17 @@ public class Player_Control : MonoBehaviour
 
     private void FixedUpdate()
     {
+        VisionFace();
         AimEnemy();
         _EnemyList.Clear();
         GroundCheck();
         Gravity();
 
+    }
+    void VisionFace()
+    {
+        _faceVision.position = _player.position;
+        _faceVision.rotation = _player.rotation;
     }
     private void GroundCheck()
     {
@@ -188,12 +194,22 @@ public class Player_Control : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Damage")
+        if (collision.collider.CompareTag("Damage") || collision.collider.CompareTag("Enemy"))
         {
             TakeDamage(collision.transform);
         }
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Damage") || other.CompareTag("Enemy"))
+        {
+            TakeDamage(other.transform);
+        }
+        if (other.TryGetComponent<Coin>(out Coin coin))
+        {
+            Destroy(coin.gameObject);
+        }
+    }
     private void TakeDamage(Transform source)
     {
         _animation.Hit();
