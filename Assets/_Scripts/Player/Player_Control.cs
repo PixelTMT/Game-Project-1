@@ -15,6 +15,10 @@ public class Player_Control : MonoBehaviour
     float _GravityPower = 1.5f;
     [SerializeField]
     float _KnockPower = 10f;
+
+    [Header("Attak")]
+    [SerializeField] bool _JumpShot = false;
+
     [Header("Movement")]
     [SerializeField]
     float _MovementSpeed = 5f;
@@ -70,6 +74,7 @@ public class Player_Control : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            if (!_grounded && !_JumpShot) return;
             Vector3 target = Vector3.zero;
             if (_closestEnemyPostition == Vector3.zero)
             {
@@ -207,7 +212,7 @@ public class Player_Control : MonoBehaviour
         }
         if (other.TryGetComponent<Coin>(out Coin coin))
         {
-            Destroy(coin.gameObject);
+            coin.Collected();
         }
     }
     private void TakeDamage(Transform source)

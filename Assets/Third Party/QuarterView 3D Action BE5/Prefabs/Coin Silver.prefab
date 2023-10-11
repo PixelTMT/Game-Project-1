@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 20
+  color: {r: 0.654902, g: 0.69803923, b: 0.69803923, a: 1}
+  particle: {fileID: 1200605140763519173, guid: 635983d2dc500ad4d9f2286421e4cb7d, type: 3}
 --- !u!1 &886662591636470312
 GameObject:
   m_ObjectHideFlags: 0

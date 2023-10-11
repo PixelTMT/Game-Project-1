@@ -5,24 +5,71 @@ using UnityEngine;
 
 public class Enemy_Controller : MonoBehaviour
 {
+    [Header("Animation")]
     [SerializeField]
     Animator _animator;
+    public Enemy_Animation_Controller _Animation_Controller;
 
+    [Header("Attack")]
     [SerializeField]
-    float _attackRange = 5;   
-    
+    float _attackRange = 5;
     [SerializeField]
     float _WaitTime = 0.1f;
-
-    public Enemy_Animation_Controller _Animation_Controller;
     public GameObject _attackHitBox;
+
+    [Header("Movement")]
+    [SerializeField] float _MovementSpeed = 4f;
+    [SerializeField] Transform _PatrolPaths;
+
+
     Transform _Target;
+    Transform _transform;
     Coroutine UnTarget_Coroutine;
     bool isBusy = false;
     void Start()
     {
+        _transform = transform;
         _attackHitBox.SetActive(false);
         StartCoroutine(Chasing());
+        StartCoroutine(Patrol());
+    }
+    IEnumerator Patrol()
+    {
+        if (_PatrolPaths != null && _PatrolPaths.childCount > 0)
+        {
+            int _currentPatrolPosition = 0, _PatrolDirection = 1;
+            while (true)
+            {
+                yield return new WaitWhile(() => _Target != null);
+
+                if (_currentPatrolPosition < 0)
+                {
+                    _currentPatrolPosition = 0;
+                    _PatrolDirection = 1;
+                }
+                else if (_currentPatrolPosition > _PatrolPaths.childCount - 1)
+                {
+                    _currentPatrolPosition = _PatrolPaths.childCount - 1;
+                    _PatrolDirection = -1;
+                }
+                Transform Pos = _PatrolPaths.GetChild(_currentPatrolPosition);
+                Vector3 Location = Pos.position;
+                while (Vector3.Distance(_transform.position, Location) > 1 && _Target == null)
+                {
+                    Location.y = _transform.position.y;
+                    Vector3 LookDirection = Location - _transform.position;
+                    Quaternion lookAt = Quaternion.LookRotation(LookDirection);
+                    Quaternion rot = Quaternion.Lerp(_transform.rotation, lookAt, Time.deltaTime * 5);
+                    _transform.rotation = rot;
+                    _transform.Translate(Time.deltaTime * _MovementSpeed * Vector3.forward);
+                    _animator.SetBool(Enemy_Animation.Walk, true);
+
+                    yield return new WaitForEndOfFrame();
+                }
+                _currentPatrolPosition += 1 * _PatrolDirection;
+
+            }
+        }
     }
     IEnumerator Chasing()
     {
@@ -31,6 +78,7 @@ public class Enemy_Controller : MonoBehaviour
             yield return new WaitUntil(() => _Target != null);
             while (_Target != null)
             {
+                //animation
                 if (_Animation_Controller.isBusy)
                 {
                     yield return new WaitWhile(() => _Animation_Controller.isBusy);
@@ -41,8 +89,18 @@ public class Enemy_Controller : MonoBehaviour
                     yield return new WaitForSeconds(_WaitTime);
                     _animator.speed = speed;
                 }
-
                 _animator.SetBool(Enemy_Animation.Walk, true);
+
+                // movement
+                Vector3 Location = _Target.position;
+                Location.y = _transform.position.y;
+                Vector3 LookDirection = Location - _transform.position;
+                Quaternion lookAt = Quaternion.LookRotation(LookDirection);
+                Quaternion rot = Quaternion.Lerp(_transform.rotation, lookAt, Time.deltaTime * 5);
+                _transform.rotation = rot;
+                _transform.Translate(Time.deltaTime * _MovementSpeed * Vector3.forward);
+                _animator.SetBool(Enemy_Animation.Walk, true);
+
                 yield return new WaitForEndOfFrame();
             }
             _animator.SetBool(Enemy_Animation.Walk, false);
@@ -58,7 +116,7 @@ public class Enemy_Controller : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            if(UnTarget_Coroutine != null) StopCoroutine(UnTarget_Coroutine);
+            if (UnTarget_Coroutine != null) StopCoroutine(UnTarget_Coroutine);
             if (_Target == null) _animator.SetTrigger(Enemy_Animation.Taunt);
             _Target = other.transform;
         }
@@ -73,7 +131,7 @@ public class Enemy_Controller : MonoBehaviour
             Vector3 e_dist = transform.position;
             e_dist.y = 0;
 
-            if(Vector3.Distance(e_dist, p_dist) < _attackRange)
+            if (Vector3.Distance(e_dist, p_dist) < _attackRange)
             {
                 _animator.SetBool(Enemy_Animation.Walk, false);
                 _animator.SetBool(Enemy_Animation.Attack, true);
