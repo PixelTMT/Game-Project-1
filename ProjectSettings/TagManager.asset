@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Damage
   - Enemy
+  - Trap
+  - PowerBlock
   layers:
   - Default
   - TransparentFX
