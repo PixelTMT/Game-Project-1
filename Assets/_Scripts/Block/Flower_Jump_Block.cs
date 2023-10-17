@@ -22,7 +22,7 @@ public class Flower_Jump_Block : MonoBehaviour
         {
             Debug.Log("JUMP!");
             anim.SetBool("isPlayerOnIt", true);
-            anim.SetTrigger("jumpTrigger");
+            //anim.SetTrigger("jumpTrigger");
             hasPlayerJumped = true;
             player.jump(jumpPower);
         }

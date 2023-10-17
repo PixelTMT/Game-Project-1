@@ -17,6 +17,7 @@ public class Player_Control : MonoBehaviour
     float _KnockPower = 10f;
 
     [Header("Attack")]
+    [SerializeField] GameObject _Bullet;
     [SerializeField] bool _JumpShot = false;
 
     [Header("Movement")]
@@ -30,6 +31,7 @@ public class Player_Control : MonoBehaviour
     LayerMask _GroundlayerMask;
     [SerializeField]
     float _GroundDetectLength = 2.5f;
+    public bool _grounded = true;
 
     [Header("Camera")]
     [SerializeField]
@@ -47,9 +49,12 @@ public class Player_Control : MonoBehaviour
     [Header("Position")]
     public Vector3 initialPosition;
 
+    [Header("Etc.")]
+    public GameObject _TookDamageParticle;
+    public int _score = 0;
+    public int _live = 3;
 
     Vector3 _closestEnemyPostition = Vector3.zero;
-    public bool _grounded = true;
     Transform _player;
     Rigidbody _rb;
     bool _stun;
@@ -59,6 +64,8 @@ public class Player_Control : MonoBehaviour
         _player = transform;
         if (_camera == null) _camera = Camera.main.transform;
         initialPosition = transform.position;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     void Update()
@@ -69,18 +76,20 @@ public class Player_Control : MonoBehaviour
         if (!_animation._Current_animation.busy)
         {
             JumpingOnInput();
-            Moving_Control(Time.deltaTime);
+            Moving_Control(Time.fixedDeltaTime);
         }
 
         Shoting();
     }
 
 
-    private void Shoting()
+    void Shoting()
     {
-        if (Input.GetButtonDown("Fire1"))
+
+        if (Input.GetButtonDown("Fire1") && !_animation._Current_animation.shoting)
         {
             if (!_grounded && !_JumpShot) return;
+            // rotate toward
             Vector3 target = Vector3.zero;
             if (_closestEnemyPostition == Vector3.zero)
             {
@@ -92,8 +101,12 @@ public class Player_Control : MonoBehaviour
             Quaternion rot = Quaternion.LookRotation(target);
             Quaternion lookTo = Quaternion.Euler(0, rot.eulerAngles.y, 0);
             _player.rotation = lookTo;
+
+            // summon bullet
+            Destroy(Instantiate(_Bullet, _player.position, _player.rotation), 5f);
             _animation.Shot();
         }
+
     }
 
     private void FixedUpdate()
@@ -115,6 +128,7 @@ public class Player_Control : MonoBehaviour
     {
         Ray ray = new Ray(_player.position, Vector3.down);
         _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask) && hit.collider.tag == "Ground";
+
         _animation.Grounded(_grounded);
     }
 
@@ -135,6 +149,7 @@ public class Player_Control : MonoBehaviour
 
     void movecam()
     {
+
         float mouseX = Input.GetAxis("Mouse X") * _cameraSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * _cameraSensitivity;
 
@@ -148,7 +163,7 @@ public class Player_Control : MonoBehaviour
 
         Vector3 desiredPosition = (_player.position - rotation * Vector3.forward * _cameraDistance) + _camOffset;
 
-        _camera.position = _camVision.position = desiredPosition;
+        _camera.position = _camVision.position = Vector3.Lerp(_camera.position, desiredPosition, 1f);
     }
     float horizontal = 0;
     float vertical = 0;
@@ -169,8 +184,9 @@ public class Player_Control : MonoBehaviour
         bool isMoving = moveDirection != Vector3.zero;
         _animation.Moving(moveDirection.magnitude > 1f || isMoving);
 
+        // movement
         if (!isMoving) return;
-        _player.Translate(moveDirection * _MovementSpeed * time, Space.World);
+        _rb.MovePosition(_player.position + (_MovementSpeed * time * moveDirection));
 
         Quaternion rotation = Quaternion.LookRotation(moveDirection);
         _player.rotation = Quaternion.Slerp(_player.rotation, rotation, time * _character_rotate_speed);
@@ -192,18 +208,25 @@ public class Player_Control : MonoBehaviour
         foreach (Transform enemy in _EnemyList)
         {
             // Check FOV
-            var direction = enemy.position - _player.position;
-            Ray ray = new Ray(_player.position, direction);
-            if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Enemy"))
+            try
             {
-                Debug.DrawRay(_player.position, direction);
-                // Get Closest
-                float dist = Vector3.Distance(enemy.position, _player.position);
-                if (dist < closest_Enemy_dist)
+                var direction = enemy.position - _player.position;
+                Ray ray = new Ray(_player.position, direction);
+                if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Enemy"))
                 {
-                    closest_Enemy_dist = dist;
-                    closest_Enemy = enemy.position;
+                    Debug.DrawRay(_player.position, direction);
+                    // Get Closest
+                    float dist = Vector3.Distance(enemy.position, _player.position);
+                    if (dist < closest_Enemy_dist)
+                    {
+                        closest_Enemy_dist = dist;
+                        closest_Enemy = enemy.position;
+                    }
                 }
+            }
+            catch
+            {
+                
             }
         }
         _closestEnemyPostition = closest_Enemy;
@@ -213,44 +236,57 @@ public class Player_Control : MonoBehaviour
     {
         if (collision.collider.CompareTag("Damage") || collision.collider.CompareTag("Enemy"))
         {
-            TakeDamage(collision.transform, _KnockPower);
+            StartCoroutine(TakeDamage(collision.transform, _KnockPower));
         }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Damage"))
         {
-            TakeDamage(other.transform, _KnockPower / 2);
+            Debug.Log($"Took damage from {other.name}");
+            StartCoroutine(TakeDamage(other.transform, _KnockPower / 2));
         }
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
-            TakeDamage(other.transform, _KnockPower);
+            Debug.Log($"Took damage from {other.name}");
+            StartCoroutine(TakeDamage(other.transform, _KnockPower));
         }
         if (other.TryGetComponent<Coin>(out Coin coin))
         {
             coin.Collected();
+            _score += (int)coin.value;
+        }
+        if (other.CompareTag("Finish"))
+        {
+            FindFirstObjectByType<game_manager>().GameFinish("Level Complete");
         }
     }
-    private void TakeDamage(Transform source, float knockPower)
+    IEnumerator TakeDamage(Transform source, float knockPower)
     {
-        _animation.Hit();
+        _animation.Hit(true);
         _animation.Moving(false);
+        _grounded = false;
+        Instantiate(_TookDamageParticle, _player.position, Quaternion.identity, _player);
         Vector3 knockDirection = (_player.position - source.position);
         if (knockDirection.magnitude > 1f)
         {
             knockDirection.Normalize();
         }
-        
 
         _rb.velocity = (knockDirection + Vector3.up) * knockPower;
+        yield return new WaitUntil(() => _grounded);
+        _animation.Hit(false);
     }
 
     private void isPlayerFreeFalling()
     {
-        if(transform.position.y < initialPosition.y - 40f)
+        if (transform.position.y < initialPosition.y - 40f)
         {
-            _animation.Moving(false);
+            //_animation.Moving(false);
             transform.position = initialPosition;
+            _rb.velocity = Vector3.zero;
+            _animation.resetAnimation();
+            _live--;
         }
     }
 

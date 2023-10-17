@@ -16,6 +16,7 @@ public class Enemy_Controller : MonoBehaviour
     [SerializeField]
     float _WaitTime = 0.1f;
     public GameObject _attackHitBox;
+    [SerializeField] GameObject _hitParticel;
 
     [Header("Movement")]
     [SerializeField] float raycastDistance = 2.0f;
@@ -26,21 +27,24 @@ public class Enemy_Controller : MonoBehaviour
     Transform _Target;
     Transform _transform;
     Coroutine UnTarget_Coroutine;
-    bool isBusy = false;
+    Coroutine _chasing, _patrol;
+    bool died = false;
+
     void Start()
     {
         _transform = transform;
         _attackHitBox.SetActive(false);
-        StartCoroutine(Chasing());
-        StartCoroutine(Patrol());
+        _chasing = StartCoroutine(Chasing());
+        _patrol = StartCoroutine(Patrol());
     }
 
     IEnumerator Patrol()
     {
+        yield return new WaitForSeconds(0);
         if (_PatrolPaths != null && _PatrolPaths.childCount > 0)
         {
             int _currentPatrolPosition = 0, _PatrolDirection = 1;
-            while (true)
+            while (!died)
             {
                 yield return new WaitWhile(() => _Target != null);
 
@@ -56,7 +60,7 @@ public class Enemy_Controller : MonoBehaviour
                 }
                 Transform Pos = _PatrolPaths.GetChild(_currentPatrolPosition);
                 Vector3 Location = Pos.position;
-                while (Vector3.Distance(_transform.position, Location) > 1 && _Target == null)
+                while (Vector3.Distance(_transform.position, Location) > 1 && _Target == null && !died)
                 {
                     Location.y = _transform.position.y;
                     Vector3 LookDirection = Location - _transform.position;
@@ -75,10 +79,11 @@ public class Enemy_Controller : MonoBehaviour
     }
     IEnumerator Chasing()
     {
-        while (true)
+        yield return new WaitForSeconds(0);
+        while (!died)
         {
             yield return new WaitUntil(() => _Target != null);
-            while (_Target != null)
+            while (_Target != null && !died)
             {
                 //animation
                 if (_Animation_Controller.isBusy)
@@ -96,7 +101,7 @@ public class Enemy_Controller : MonoBehaviour
 
                 bool isPathAvailable = isBlockInfrontExist();
 
-                if (isPathAvailable)
+                if (isPathAvailable && _Target != null)
                 {
                     Vector3 Location = _Target.position;
                     Location.y = _transform.position.y;
@@ -122,18 +127,34 @@ public class Enemy_Controller : MonoBehaviour
         yield return new WaitForSeconds(10f);
         _Target = null;
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (died) return;
+        if (collision.collider.CompareTag("Player_Bullet"))
+        {
+            Instantiate(_hitParticel, transform.position, Quaternion.identity, transform);
+            if (_patrol != null) StopCoroutine(_patrol);
+            if (_chasing != null) StopCoroutine(_chasing);
+            Destroy(gameObject, 2f);
+            _animator.SetTrigger("Die");
+            died = true;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (died) return;
         if (other.tag == "Player")
         {
             if (UnTarget_Coroutine != null) StopCoroutine(UnTarget_Coroutine);
             if (_Target == null) _animator.SetTrigger(Enemy_Animation.Taunt);
             _Target = other.transform;
         }
+
     }
     private void OnTriggerStay(Collider other)
     {
+        if (died) return;
         if (other.tag == "Player")
         {
             Vector3 p_dist = other.transform.position;
@@ -148,7 +169,9 @@ public class Enemy_Controller : MonoBehaviour
                 _animator.SetBool(Enemy_Animation.Attack, true);
                 _attackHitBox.SetActive(true);
             }
+            _Target = other.transform;
         }
+
     }
     private void OnTriggerExit(Collider other)
     {

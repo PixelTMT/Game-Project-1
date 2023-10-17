@@ -7198,10 +7198,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.76
+  - time: 0.4
     functionName: animation_event
     data: knock_0
-    objectReferenceParameter: {fileID: 5629495863303228872, guid: 6e6cfd9af68847644aa3bce3df77d8b1, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 1af1f531e325b5f40bcd22027dfedca6, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
