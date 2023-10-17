@@ -16,7 +16,7 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _KnockPower = 10f;
 
-    [Header("Attak")]
+    [Header("Attack")]
     [SerializeField] bool _JumpShot = false;
 
     [Header("Movement")]
@@ -44,8 +44,12 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     Transform _faceVision;
 
+    [Header("Position")]
+    public Vector3 initialPosition;
+
+
     Vector3 _closestEnemyPostition = Vector3.zero;
-    bool _grounded = true;
+    public bool _grounded = true;
     Transform _player;
     Rigidbody _rb;
     bool _stun;
@@ -53,7 +57,8 @@ public class Player_Control : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _player = transform;
-        //if (_camera == null) _camera = Camera.main.transform;
+        if (_camera == null) _camera = Camera.main.transform;
+        initialPosition = transform.position;
     }
 
     void Update()
@@ -63,12 +68,13 @@ public class Player_Control : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         if (!_animation._Current_animation.busy)
         {
-            Jumping();
+            JumpingOnInput();
             Moving_Control(Time.deltaTime);
         }
 
         Shoting();
     }
+
 
     private void Shoting()
     {
@@ -97,6 +103,7 @@ public class Player_Control : MonoBehaviour
         _EnemyList.Clear();
         GroundCheck();
         Gravity();
+        isPlayerFreeFalling();
 
     }
     void VisionFace()
@@ -111,13 +118,18 @@ public class Player_Control : MonoBehaviour
         _animation.Grounded(_grounded);
     }
 
-    private void Jumping()
+    private void JumpingOnInput()
     {
         if (Input.GetButtonDown("Jump") && _grounded)
         {
-            _rb.velocity = _rb.velocity + Vector3.up * _jumpForce;
-            _animation.Jump();
+            jump(_jumpForce);
         }
+    }
+
+    public void jump(float jumpForce)
+    {
+        _rb.velocity = _rb.velocity + Vector3.up * jumpForce;
+        _animation.Jump();
     }
 
 
@@ -201,30 +213,45 @@ public class Player_Control : MonoBehaviour
     {
         if (collision.collider.CompareTag("Damage") || collision.collider.CompareTag("Enemy"))
         {
-            TakeDamage(collision.transform);
+            TakeDamage(collision.transform, _KnockPower);
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Damage") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Damage"))
         {
-            TakeDamage(other.transform);
+            TakeDamage(other.transform, _KnockPower / 2);
+        }
+        if(other.CompareTag("Enemy"))
+        {
+            TakeDamage(other.transform, _KnockPower);
         }
         if (other.TryGetComponent<Coin>(out Coin coin))
         {
             coin.Collected();
         }
     }
-    private void TakeDamage(Transform source)
+    private void TakeDamage(Transform source, float knockPower)
     {
         _animation.Hit();
+        _animation.Moving(false);
         Vector3 knockDirection = (_player.position - source.position);
         if (knockDirection.magnitude > 1f)
         {
             knockDirection.Normalize();
         }
+        
 
-        _rb.velocity = (knockDirection + Vector3.up) * _KnockPower;
+        _rb.velocity = (knockDirection + Vector3.up) * knockPower;
+    }
+
+    private void isPlayerFreeFalling()
+    {
+        if(transform.position.y < initialPosition.y - 40f)
+        {
+            _animation.Moving(false);
+            transform.position = initialPosition;
+        }
     }
 
 }

@@ -18,9 +18,10 @@ public class Enemy_Controller : MonoBehaviour
     public GameObject _attackHitBox;
 
     [Header("Movement")]
+    [SerializeField] float raycastDistance = 2.0f;
+    [SerializeField] float _rotationSpeed = 8.0f;
     [SerializeField] float _MovementSpeed = 4f;
     [SerializeField] Transform _PatrolPaths;
-
 
     Transform _Target;
     Transform _transform;
@@ -33,6 +34,7 @@ public class Enemy_Controller : MonoBehaviour
         StartCoroutine(Chasing());
         StartCoroutine(Patrol());
     }
+
     IEnumerator Patrol()
     {
         if (_PatrolPaths != null && _PatrolPaths.childCount > 0)
@@ -59,7 +61,7 @@ public class Enemy_Controller : MonoBehaviour
                     Location.y = _transform.position.y;
                     Vector3 LookDirection = Location - _transform.position;
                     Quaternion lookAt = Quaternion.LookRotation(LookDirection);
-                    Quaternion rot = Quaternion.Lerp(_transform.rotation, lookAt, Time.deltaTime * 5);
+                    Quaternion rot = Quaternion.Lerp(_transform.rotation, lookAt, Time.deltaTime * _rotationSpeed);
                     _transform.rotation = rot;
                     _transform.Translate(Time.deltaTime * _MovementSpeed * Vector3.forward);
                     _animator.SetBool(Enemy_Animation.Walk, true);
@@ -91,15 +93,24 @@ public class Enemy_Controller : MonoBehaviour
                 }
                 _animator.SetBool(Enemy_Animation.Walk, true);
 
-                // movement
-                Vector3 Location = _Target.position;
-                Location.y = _transform.position.y;
-                Vector3 LookDirection = Location - _transform.position;
-                Quaternion lookAt = Quaternion.LookRotation(LookDirection);
-                Quaternion rot = Quaternion.Lerp(_transform.rotation, lookAt, Time.deltaTime * 5);
-                _transform.rotation = rot;
-                _transform.Translate(Time.deltaTime * _MovementSpeed * Vector3.forward);
-                _animator.SetBool(Enemy_Animation.Walk, true);
+
+                bool isPathAvailable = isBlockInfrontExist();
+
+                if (isPathAvailable)
+                {
+                    Vector3 Location = _Target.position;
+                    Location.y = _transform.position.y;
+                    Vector3 LookDirection = Location - _transform.position;
+                    Quaternion lookAt = Quaternion.LookRotation(LookDirection);
+                    Quaternion rot = Quaternion.Lerp(_transform.rotation, lookAt, Time.deltaTime * _rotationSpeed);
+                    _transform.rotation = rot;
+                    _transform.Translate(Time.deltaTime * _MovementSpeed * Vector3.forward);
+                    _animator.SetBool(Enemy_Animation.Walk, true);
+                }
+                else
+                {
+                    _Target = null;
+                }
 
                 yield return new WaitForEndOfFrame();
             }
@@ -147,6 +158,42 @@ public class Enemy_Controller : MonoBehaviour
         }
     }
 
+
+    private bool isBlockInfrontExist()
+    {
+        Vector3 raycastDirection = Vector3.down;
+        Vector3 offset = new Vector3(0, 0, 2.2f);
+        Vector3 raycastOrigin = _transform.TransformPoint(offset);
+        RaycastHit hit;
+
+        Debug.DrawLine(transform.position, raycastDirection);
+
+       if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance))
+        {
+            if (hit.collider.CompareTag("Ground")) 
+            {
+                return true; 
+            }
+        }
+
+        return false; 
+    }
+
+    public void setPatrolPath(Transform patrolPath)
+    {
+        _PatrolPaths = patrolPath;
+    }
+
+    private void Update()
+    {
+        Vector3 raycastDirection = Vector3.down;
+        Vector3 offset = new Vector3(0, 0, 2.2f); // Adjust the values as needed to position it behind the character.
+        Vector3 raycastOrigin = _transform.TransformPoint(offset);
+        RaycastHit hit;
+
+        Debug.DrawLine(raycastOrigin, raycastOrigin + raycastDirection * raycastDistance, Color.red);
+    }
+
 }
 public class Enemy_Animation
 {
@@ -155,3 +202,4 @@ public class Enemy_Animation
     public static string Die = "Die";
     public static string Taunt = "Taunt";
 }
+

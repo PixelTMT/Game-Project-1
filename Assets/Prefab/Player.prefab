@@ -110,9 +110,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.8
-  m_Height: 5
+  m_Height: 5.1385283
   m_Direction: 1
-  m_Center: {x: 0, y: -0.1, z: 0}
+  m_Center: {x: 0, y: -0.16926408, z: 0}
 --- !u!54 &5754591773604275265
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -142,11 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animation: {fileID: 661773495939738886}
-  _GravityPower: 1.5
+  _GravityPower: 2
   _KnockPower: 35
+  _JumpShot: 0
   _MovementSpeed: 15
   _character_rotate_speed: 10
-  _jumpForce: 50
+  _jumpForce: 30
   _GroundlayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -168,7 +169,7 @@ GameObject:
   - component: {fileID: 127110226912599918}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,7 +183,7 @@ Transform:
   m_GameObject: {fileID: 127110226912599917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 127110226219395707}
