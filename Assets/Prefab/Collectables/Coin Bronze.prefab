@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1599597762868183136}
   - component: {fileID: 8715347354274509624}
   - component: {fileID: 6455140743176232283}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4892100819185039824}
   - component: {fileID: 8259901171213385190}
   - component: {fileID: 8259901171213385185}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Coin Bronze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,5 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 10
+  spin_amount: 5
+  y_amount: 0.5
   color: {r: 0.5686275, g: 0.40784317, b: 0.31764707, a: 1}
   particle: {fileID: 1200605140763519173, guid: 635983d2dc500ad4d9f2286421e4cb7d, type: 3}

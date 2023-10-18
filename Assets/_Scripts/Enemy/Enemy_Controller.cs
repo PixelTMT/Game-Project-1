@@ -24,6 +24,9 @@ public class Enemy_Controller : MonoBehaviour
     [SerializeField] float _MovementSpeed = 4f;
     [SerializeField] Transform _PatrolPaths;
 
+    [Header("Score")]
+    [SerializeField] int _Score = 30;
+
     Transform _Target;
     Transform _transform;
     Coroutine UnTarget_Coroutine;
@@ -132,12 +135,14 @@ public class Enemy_Controller : MonoBehaviour
         if (died) return;
         if (collision.collider.CompareTag("Player_Bullet"))
         {
+            FindFirstObjectByType<Player_Control>()._score += _Score;
             Instantiate(_hitParticel, transform.position, Quaternion.identity, transform);
             if (_patrol != null) StopCoroutine(_patrol);
             if (_chasing != null) StopCoroutine(_chasing);
             Destroy(gameObject, 2f);
             _animator.SetTrigger("Die");
-            gameObject.tag = "Untagged";
+            // disable collider
+            GetComponent<BoxCollider>().enabled = false;
             died = true;
         }
     }

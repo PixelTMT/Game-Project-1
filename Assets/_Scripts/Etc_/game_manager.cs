@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,6 +26,7 @@ public class game_manager : MonoBehaviour
     bool _GameFinish = false;
     private IEnumerator Start()
     {
+        
         PlayerUI = Instantiate(PlayerUI);
         while (!_GameFinish && !_GameOver)
         {
@@ -38,7 +40,7 @@ public class game_manager : MonoBehaviour
         }
     }
 
-    public void GameFinish(string msg)
+    public void GameFinish(string msg, bool time = false)
     {
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         GameOverUI = Instantiate(GameOverUI);
@@ -49,6 +51,7 @@ public class game_manager : MonoBehaviour
         {
             if(t.name == "Gameover")
             {
+                if(time) msg += $"\n{DateTime.Now - player.dateTime}";
                 t.GetComponent<TextMeshProUGUI>().text = msg;
             }
             else if (t.name == "Score")

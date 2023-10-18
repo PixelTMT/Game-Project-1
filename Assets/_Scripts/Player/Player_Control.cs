@@ -11,12 +11,13 @@ public class Player_Control : MonoBehaviour
 
     [SerializeField]
     public Player_Animation_Control _animation;
-    [SerializeField]
-    float _GravityPower = 1.5f;
+
     [SerializeField]
     float _KnockPower = 10f;
 
     [Header("Attack")]
+    [SerializeField] bool _allowGun = true;
+    [SerializeField] GameObject _objectGun;
     [SerializeField] GameObject _Bullet;
     [SerializeField] bool _JumpShot = false;
 
@@ -32,6 +33,10 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _GroundDetectLength = 2.5f;
     public bool _grounded = true;
+    [SerializeField]
+    float _GravityPower = 1.5f;
+    [SerializeField]
+    float _VelosityMax = 100f;
 
     [Header("Camera")]
     [SerializeField]
@@ -58,6 +63,8 @@ public class Player_Control : MonoBehaviour
     Transform _player;
     Rigidbody _rb;
     bool _stun;
+    [HideInInspector]
+    public DateTime dateTime = DateTime.MinValue;
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -71,24 +78,47 @@ public class Player_Control : MonoBehaviour
     void Update()
     {
         movecam();
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
         if (!_animation._Current_animation.busy)
         {
             JumpingOnInput();
+            Shoting();
+        }
+    }
+
+
+    private void FixedUpdate()
+    {
+        VisionFace();
+        AimEnemy();
+        _EnemyList.Clear();
+        GroundCheck();
+        Gravity();
+        isPlayerFreeFalling();
+        if (!_animation._Current_animation.busy)
+        {
             Moving_Control(Time.fixedDeltaTime);
         }
-
-        Shoting();
     }
 
 
     void Shoting()
     {
-
+        if (!_allowGun)
+        {
+            _objectGun.SetActive(false);
+            return;
+        }
+        else if (!_objectGun.activeSelf) _objectGun.SetActive(true);
         if (Input.GetButtonDown("Fire1") && !_animation._Current_animation.shoting)
         {
             if (!_grounded && !_JumpShot) return;
+            if (dateTime == DateTime.MinValue)
+            {
+                Debug.Log("Shot");
+                dateTime = DateTime.Now;
+            }
             // rotate toward
             Vector3 target = Vector3.zero;
             if (_closestEnemyPostition == Vector3.zero)
@@ -108,17 +138,6 @@ public class Player_Control : MonoBehaviour
         }
 
     }
-
-    private void FixedUpdate()
-    {
-        VisionFace();
-        AimEnemy();
-        _EnemyList.Clear();
-        GroundCheck();
-        Gravity();
-        isPlayerFreeFalling();
-
-    }
     void VisionFace()
     {
         _faceVision.position = _player.position;
@@ -136,13 +155,20 @@ public class Player_Control : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && _grounded)
         {
+            if (dateTime == DateTime.MinValue)
+            {
+                Debug.Log("Jump");
+                dateTime = DateTime.Now;
+            }
             jump(_jumpForce);
         }
     }
 
     public void jump(float jumpForce)
     {
-        _rb.velocity = _rb.velocity + Vector3.up * jumpForce;
+        var vel = _rb.velocity;
+        vel.y = 0;
+        _rb.velocity = vel + Vector3.up * jumpForce;
         _animation.Jump();
     }
 
@@ -190,6 +216,11 @@ public class Player_Control : MonoBehaviour
 
         Quaternion rotation = Quaternion.LookRotation(moveDirection);
         _player.rotation = Quaternion.Slerp(_player.rotation, rotation, time * _character_rotate_speed);
+        if (dateTime == DateTime.MinValue)
+        {
+            Debug.Log("Move");
+            dateTime = DateTime.Now;
+        }
     }
     void Gravity()
     {
@@ -226,7 +257,7 @@ public class Player_Control : MonoBehaviour
             }
             catch
             {
-                
+
             }
         }
         _closestEnemyPostition = closest_Enemy;
@@ -239,6 +270,7 @@ public class Player_Control : MonoBehaviour
             StartCoroutine(TakeDamage(collision.transform, _KnockPower));
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Damage"))
@@ -258,7 +290,7 @@ public class Player_Control : MonoBehaviour
         }
         if (other.CompareTag("Finish"))
         {
-            FindFirstObjectByType<game_manager>().GameFinish("Level Complete");
+            FindFirstObjectByType<game_manager>().GameFinish("Level Complete", true);
         }
     }
     IEnumerator TakeDamage(Transform source, float knockPower)
@@ -274,6 +306,7 @@ public class Player_Control : MonoBehaviour
         }
 
         _rb.velocity = (knockDirection + Vector3.up) * knockPower;
+        yield return new WaitForSeconds(0.3f);
         yield return new WaitUntil(() => _grounded);
         _animation.Hit(false);
     }
@@ -287,6 +320,10 @@ public class Player_Control : MonoBehaviour
             _rb.velocity = Vector3.zero;
             _animation.resetAnimation();
             _live--;
+        }
+        if (_rb.velocity.y < -_VelosityMax)
+        {
+            _rb.velocity = new Vector3(_rb.velocity.x, -_VelosityMax, _rb.velocity.z);
         }
     }
 

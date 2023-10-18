@@ -128,7 +128,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5754591773604275264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,18 +142,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animation: {fileID: 661773495939738886}
-  _GravityPower: 2
   _KnockPower: 35
+  _allowGun: 1
+  _objectGun: {fileID: 1527020034938273175}
   _Bullet: {fileID: 1943567423557166530, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
   _JumpShot: 0
-  _MovementSpeed: 12
+  _MovementSpeed: 13
   _character_rotate_speed: 10
-  _jumpForce: 35
+  _jumpForce: 37
   _GroundlayerMask:
     serializedVersion: 2
     m_Bits: 8
   _GroundDetectLength: 2.5
   _grounded: 1
+  _GravityPower: 1.9
+  _VelosityMax: 100
   _camera: {fileID: 0}
   _cameraDistance: 10
   _cameraSensitivity: 4
@@ -163,7 +166,7 @@ MonoBehaviour:
   initialPosition: {x: 0, y: 0, z: 0}
   _TookDamageParticle: {fileID: 2442005141402185278, guid: 86e5dcc2a0d9e6d44b90059f65425798, type: 3}
   _score: 0
-  _live: 3
+  _live: 10
 --- !u!1 &127110226912599917
 GameObject:
   m_ObjectHideFlags: 0
