@@ -10,6 +10,9 @@ public class game_manager : MonoBehaviour
     Player_Control player;
 
     [SerializeField]
+    Player_Animation_Control _animation;
+
+    [SerializeField]
     GameObject PlayerUI;
 
     [SerializeField]
@@ -39,6 +42,9 @@ public class game_manager : MonoBehaviour
     {
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         GameOverUI = Instantiate(GameOverUI);
+        player._animation.Moving(false);
+        player.enabled = false;
+
         foreach (Transform t in GameOverUI.transform)
         {
             if(t.name == "Gameover")
