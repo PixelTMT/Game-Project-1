@@ -137,6 +137,7 @@ public class Enemy_Controller : MonoBehaviour
             if (_chasing != null) StopCoroutine(_chasing);
             Destroy(gameObject, 2f);
             _animator.SetTrigger("Die");
+            gameObject.tag = "Untagged";
             died = true;
         }
     }

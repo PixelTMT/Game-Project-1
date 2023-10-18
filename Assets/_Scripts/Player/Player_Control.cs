@@ -10,7 +10,7 @@ public class Player_Control : MonoBehaviour
 {
 
     [SerializeField]
-    Player_Animation_Control _animation;
+    public Player_Animation_Control _animation;
     [SerializeField]
     float _GravityPower = 1.5f;
     [SerializeField]
