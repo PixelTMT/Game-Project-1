@@ -476,6 +476,7 @@ MonoBehaviour:
   _rotationSpeed: 8
   _MovementSpeed: 4
   _PatrolPaths: {fileID: 0}
+  _Score: 30
 --- !u!1 &4419808451661150232
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1355755798870936303}
+  - component: {fileID: 8098242344321735023}
   m_Layer: 0
   m_Name: FinishLine
   m_TagString: Untagged
@@ -38,6 +39,74 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8098242344321735023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749167093683435670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6501244c613244685e05adcefbedff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeMode: 0
+  animateCrossFading: 0
+  autoCollectRenderers: 1
+  simplificationOptions:
+    PreserveBorderEdges: 1
+    PreserveUVSeamEdges: 1
+    PreserveUVFoldoverEdges: 1
+    PreserveSurfaceCurvature: 1
+    EnableSmartLink: 1
+    VertexLinkDistance: 5e-324
+    MaxIterationCount: 100
+    Agressiveness: 7
+    ManualUVComponentCount: 0
+    UVComponentCount: 2
+  saveAssetsPath: 
+  levels:
+  - screenRelativeTransitionHeight: 0.5
+    fadeTransitionWidth: 0
+    quality: 0.8
+    combineMeshes: 0
+    combineSubMeshes: 0
+    renderers: []
+    skinQuality: 0
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 1
+    skinnedMotionVectors: 1
+    lightProbeUsage: 1
+    reflectionProbeUsage: 1
+  - screenRelativeTransitionHeight: 0.1
+    fadeTransitionWidth: 0
+    quality: 0.5
+    combineMeshes: 1
+    combineSubMeshes: 1
+    renderers: []
+    skinQuality: 0
+    shadowCastingMode: 1
+    receiveShadows: 1
+    motionVectorGenerationMode: 1
+    skinnedMotionVectors: 1
+    lightProbeUsage: 1
+    reflectionProbeUsage: 3
+  - screenRelativeTransitionHeight: 0.02
+    fadeTransitionWidth: 0
+    quality: 0.3
+    combineMeshes: 1
+    combineSubMeshes: 1
+    renderers: []
+    skinQuality: 2
+    shadowCastingMode: 0
+    receiveShadows: 0
+    motionVectorGenerationMode: 1
+    skinnedMotionVectors: 0
+    lightProbeUsage: 0
+    reflectionProbeUsage: 0
+  isGenerated: 0
 --- !u!1 &6354030057558791702
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +159,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355755798870936303}
     m_Modifications:
+    - target: {fileID: 35551024192909735, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016935178288904384, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029438374087111643, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4033609274033588034, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -152,6 +233,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355755798870936303}
     m_Modifications:
+    - target: {fileID: 5072856672913564846, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189488293373472201, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9187566645940837155, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
       propertyPath: m_Name
       value: FinishBlockBlack
@@ -200,6 +289,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9192402876653350837, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
 --- !u!4 &3408235437380833413 stripped
@@ -214,6 +307,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355755798870936303}
     m_Modifications:
+    - target: {fileID: 35551024192909735, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016935178288904384, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029438374087111643, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4033609274033588034, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -276,6 +381,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355755798870936303}
     m_Modifications:
+    - target: {fileID: 5072856672913564846, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189488293373472201, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9187566645940837155, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
       propertyPath: m_Name
       value: FinishBlockBlack
@@ -324,6 +437,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9192402876653350837, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
 --- !u!4 &3408235437244797778 stripped
@@ -338,6 +455,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355755798870936303}
     m_Modifications:
+    - target: {fileID: 35551024192909735, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016935178288904384, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029438374087111643, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4033609274033588034, guid: 7c0d33a81df9cc74d8be6f469076b37c, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -400,6 +529,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355755798870936303}
     m_Modifications:
+    - target: {fileID: 5072856672913564846, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189488293373472201, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9187566645940837155, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
       propertyPath: m_Name
       value: FinishBlockBlack
@@ -447,6 +584,10 @@ PrefabInstance:
     - target: {fileID: 9187566645940837164, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192402876653350837, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdb333c4ce882d24387da48e6a20e2a5, type: 3}
