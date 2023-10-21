@@ -867,7 +867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5754591773499361365}
   - component: {fileID: 5754591773499361364}
-  m_Layer: 7
+  m_Layer: 2
   m_Name: VisionCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -915,7 +915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5754591774254125032}
   - component: {fileID: 5754591774254125037}
-  m_Layer: 7
+  m_Layer: 2
   m_Name: VisionBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
