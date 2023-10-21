@@ -93,6 +93,7 @@ public class Player_Control : MonoBehaviour
         VisionFace();
         AimEnemy();
         _EnemyList.Clear();
+        //stuckInGround();
         GroundCheck();
         Gravity();
         isPlayerFreeFalling();
@@ -262,15 +263,22 @@ public class Player_Control : MonoBehaviour
         }
         _closestEnemyPostition = closest_Enemy;
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Damage") || collision.collider.CompareTag("Enemy"))
         {
             StartCoroutine(TakeDamage(collision.transform, _KnockPower));
         }
+        
     }
-
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.collider.CompareTag("Ground") && collision.relativeVelocity.magnitude > 0.1f)
+        {
+            Debug.Log("Stuck");
+            _player.Translate(Vector3.up * Time.deltaTime);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Damage"))
@@ -310,7 +318,19 @@ public class Player_Control : MonoBehaviour
         yield return new WaitUntil(() => _grounded);
         _animation.Hit(false);
     }
-
+    void stuckInGround()
+    {
+        var ignore =~ LayerMask.NameToLayer("Player");
+        if (Physics.SphereCast(_player.position + Vector3.down * 2f, 0.5f, Vector3.up, out RaycastHit hit, 2f, ignore))
+        {
+            Debug.Log(hit.collider.tag);
+            if (hit.collider.CompareTag("Ground"))
+            {
+                Debug.Log("Stuck in Ground");
+                _player.Translate(Vector3.up * Time.deltaTime);
+            }
+        }
+    }
     private void isPlayerFreeFalling()
     {
         if (transform.position.y < initialPosition.y - 40f)
