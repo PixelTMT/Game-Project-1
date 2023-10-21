@@ -190,7 +190,7 @@ public class Player_Control : MonoBehaviour
 
         Vector3 desiredPosition = (_player.position - rotation * Vector3.forward * _cameraDistance) + _camOffset;
 
-        _camera.position = _camVision.position = Vector3.Lerp(_camera.position, desiredPosition, 1f);
+        _camera.position = _camVision.position = Vector3.Lerp(_camera.position, desiredPosition, 1);
     }
     float horizontal = 0;
     float vertical = 0;
@@ -273,7 +273,7 @@ public class Player_Control : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.collider.CompareTag("Ground") && collision.relativeVelocity.magnitude > 0.1f)
+        if(collision.collider.CompareTag("Ground") && collision.relativeVelocity.magnitude > 1f)
         {
             Debug.Log("Stuck");
             _player.Translate(Vector3.up * Time.deltaTime);
