@@ -43,6 +43,7 @@ public class Enemy_Controller : MonoBehaviour
 
     IEnumerator Patrol()
     {
+        var waitFrame = new WaitForEndOfFrame();
         yield return new WaitForSeconds(0);
         if (_PatrolPaths != null && _PatrolPaths.childCount > 0)
         {
@@ -73,7 +74,7 @@ public class Enemy_Controller : MonoBehaviour
                     _transform.Translate(Time.deltaTime * _MovementSpeed * Vector3.forward);
                     _animator.SetBool(Enemy_Animation.Walk, true);
 
-                    yield return new WaitForEndOfFrame();
+                    yield return waitFrame;
                 }
                 _currentPatrolPosition += 1 * _PatrolDirection;
 
@@ -82,6 +83,8 @@ public class Enemy_Controller : MonoBehaviour
     }
     IEnumerator Chasing()
     {
+        var waitFrame = new WaitForEndOfFrame();
+        var waitforSec = new WaitForSeconds(_WaitTime);
         yield return new WaitForSeconds(0);
         while (!died)
         {
@@ -96,7 +99,7 @@ public class Enemy_Controller : MonoBehaviour
                     _animator.SetBool(Enemy_Animation.Attack, false);
                     float speed = _animator.speed;
                     _animator.speed = 0;
-                    yield return new WaitForSeconds(_WaitTime);
+                    yield return waitforSec;
                     _animator.speed = speed;
                 }
                 _animator.SetBool(Enemy_Animation.Walk, true);
@@ -120,7 +123,7 @@ public class Enemy_Controller : MonoBehaviour
                     _Target = null;
                 }
 
-                yield return new WaitForEndOfFrame();
+                yield return waitFrame;
             }
             _animator.SetBool(Enemy_Animation.Walk, false);
         }

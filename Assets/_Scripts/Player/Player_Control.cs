@@ -27,6 +27,10 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _character_rotate_speed = 10f;
     [SerializeField]
+    float _floatingAmount = 0.1f;
+    [SerializeField]
+    float _minMovement = 0.05f;
+    [SerializeField]
     float _jumpForce = 5f;
     [SerializeField]
     LayerMask _GroundlayerMask;
@@ -70,7 +74,7 @@ public class Player_Control : MonoBehaviour
 
     public enum StepBlock
     {
-        normal, ice
+        normal, ice, air
     }
     void Start()
     {
@@ -105,15 +109,21 @@ public class Player_Control : MonoBehaviour
         Gravity();
         isPlayerFreeFalling();
         airControl();
+        minMovement();
         if (!_animation._Current_animation.busy)
         {
             Moving_Control(Time.fixedDeltaTime);
         }
     }
 
+    private void minMovement()
+    {
+        if (_rb.velocity.magnitude < _minMovement) _rb.velocity = Vector3.zero;
+    }
+
     private void airControl()
     {
-        if(_currentBlock == StepBlock.normal)
+        if(_currentBlock == StepBlock.normal && !_stun)
         {
             _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
         }
@@ -163,6 +173,12 @@ public class Player_Control : MonoBehaviour
     {
         Ray ray = new Ray(_player.position, Vector3.down);
         _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask);
+
+        //make it float a bit
+        if (_grounded)
+        {
+            _player.Translate(Vector3.up * _floatingAmount);
+        }
 
         _animation.Grounded(_grounded);
     }
@@ -237,6 +253,7 @@ public class Player_Control : MonoBehaviour
     void Gravity()
     {
         if (!_grounded) _rb.velocity += Vector3.down * _GravityPower;
+        //else _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
     }
     List<Transform> _EnemyList = new List<Transform>();
     public void AddEnemyList(Transform transform)
@@ -322,20 +339,18 @@ public class Player_Control : MonoBehaviour
     }
     IEnumerator TakeDamage(Transform source, float knockPower)
     {
+        _stun = true;
         _animation.Hit(true);
         _animation.Moving(false);
         _grounded = false;
         Instantiate(_TookDamageParticle, _player.position, Quaternion.identity, _player);
         Vector3 knockDirection = (_player.position - source.position);
-        if (knockDirection.magnitude > 1f)
-        {
-            knockDirection.Normalize();
-        }
-
+        knockDirection.y = 0;
         _rb.velocity = (knockDirection + Vector3.up) * knockPower;
         yield return new WaitForSeconds(0.3f);
         yield return new WaitUntil(() => _grounded);
         _animation.Hit(false);
+        _stun = false;
     }
     void stuckInGround()
     {

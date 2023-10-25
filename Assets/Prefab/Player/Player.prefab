@@ -109,10 +109,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: d4b95b6b2c45e294999a8cf5aa400a88, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 1.1
   m_Height: 5.1385283
   m_Direction: 1
-  m_Center: {x: 0, y: -0.16926408, z: 0.27}
+  m_Center: {x: 0, y: -0.05, z: 0.27}
 --- !u!54 &5754591773604275265
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -147,8 +147,10 @@ MonoBehaviour:
   _objectGun: {fileID: 1527020034938273175}
   _Bullet: {fileID: 1943567423557166530, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
   _JumpShot: 0
-  _MovementSpeed: 15
+  _MovementSpeed: 14
   _character_rotate_speed: 10
+  _floatingAmount: 0.0155
+  _minMovement: 0.05
   _jumpForce: 37
   _GroundlayerMask:
     serializedVersion: 2
@@ -167,6 +169,7 @@ MonoBehaviour:
   _TookDamageParticle: {fileID: 2442005141402185278, guid: 86e5dcc2a0d9e6d44b90059f65425798, type: 3}
   _score: 0
   _live: 10
+  _currentBlock: 0
 --- !u!1 &127110226912599917
 GameObject:
   m_ObjectHideFlags: 0

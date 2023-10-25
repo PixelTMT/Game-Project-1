@@ -6,19 +6,17 @@ public class Flower_Jump_Block : MonoBehaviour
 {
     // Start is called before the first frame update
     Animator anim;
-    [SerializeField] Player_Control player;
     [SerializeField] float jumpPower = 5f;
     private bool hasPlayerJumped = false;
 
     void Start()
     { 
         anim = GetComponent<Animator>();
-        player = GameObject.Find("Player Skin").GetComponent<Player_Control>();
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && player._grounded)
+        if (other.CompareTag("Player") && other.TryGetComponent<Player_Control>(out Player_Control player) && player._grounded)
         {
             Debug.Log("JUMP!");
             anim.SetBool("isPlayerOnIt", true);

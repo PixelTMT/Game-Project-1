@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 7574828024340677141}
   - component: {fileID: 5066321604607949037}
   - component: {fileID: 458972290185994163}
+  - component: {fileID: 5571021803510248957}
   m_Layer: 3
   m_Name: IceBlock
   m_TagString: IceGround
@@ -229,6 +230,19 @@ MonoBehaviour:
   - {fileID: 6345231249278924706}
   - {fileID: 7059774778733919417}
   - {fileID: 8042293817801127390}
+--- !u!65 &5571021803510248957
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6350067409991107380}
+  m_Material: {fileID: 13400000, guid: 6fca95d85932b8b43a7e3d0f18b5729d, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 2.2, z: 2.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6709083332315019869
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +368,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6742042635542666453}
-  m_Mesh: {fileID: 4300000, guid: 075e2dab030adb24b8ad6ca54b07a658, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 593402eafb3bfe442839f44106159655, type: 2}
 --- !u!23 &8774961417501250100
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -570,7 +584,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3281812277924531262, guid: 3d3e1647da524af438765070d6d4fc6c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d3e1647da524af438765070d6d4fc6c, type: 3}
 --- !u!4 &2225874970954100524 stripped
 Transform:
