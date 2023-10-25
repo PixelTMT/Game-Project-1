@@ -208,12 +208,13 @@ public class Player_Control : MonoBehaviour
         {
             moveDirection.Normalize();
         }
+        moveDirection *= _MovementSpeed;
         bool isMoving = moveDirection != Vector3.zero;
         _animation.Moving(moveDirection.magnitude > 1f || isMoving);
 
         // movement
         if (!isMoving) return;
-        _rb.MovePosition(_player.position + (_MovementSpeed * time * moveDirection));
+        _rb.velocity = new Vector3(moveDirection.x, _rb.velocity.y, moveDirection.z);
 
         Quaternion rotation = Quaternion.LookRotation(moveDirection);
         _player.rotation = Quaternion.Slerp(_player.rotation, rotation, time * _character_rotate_speed);
