@@ -624,7 +624,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351114010}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: f02560af313b4b24ea0eb9f395584749, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1639,7 +1639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2123766968
 Transform:
   m_ObjectHideFlags: 0
@@ -1876,6 +1876,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy B
       objectReference: {fileID: 0}
+    - target: {fileID: 1456182542043989237, guid: 0fabcfb40643df94d97cebf33e812fbb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fabcfb40643df94d97cebf33e812fbb, type: 3}
 --- !u!4 &904599736580080280 stripped
@@ -2061,6 +2065,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy A
       objectReference: {fileID: 0}
+    - target: {fileID: 4163170306475063348, guid: 4eabe7ce227ca4c41bfc61f045316081, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eabe7ce227ca4c41bfc61f045316081, type: 3}
 --- !u!4 &4462523134140750957 stripped
@@ -2197,6 +2205,10 @@ PrefabInstance:
     - target: {fileID: 402689081761456148, guid: 3a622f1d9e1f1424f89df48304b8278b, type: 3}
       propertyPath: m_Name
       value: Enemy C
+      objectReference: {fileID: 0}
+    - target: {fileID: 402689081761456148, guid: 3a622f1d9e1f1424f89df48304b8278b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8291540791108368283, guid: 3a622f1d9e1f1424f89df48304b8278b, type: 3}
       propertyPath: m_RootOrder

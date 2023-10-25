@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Test Map.unity
+    path: Assets/Scenes/Test Map ice.unity
     guid: 5d940b7e21ab0e04eb7443fb94ab823a
   m_configObjects: {}

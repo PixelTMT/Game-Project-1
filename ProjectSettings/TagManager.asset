@@ -10,6 +10,7 @@ TagManager:
   - Trap
   - PowerBlock
   - Player_Bullet
+  - IceGround
   layers:
   - Default
   - TransparentFX

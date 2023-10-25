@@ -147,7 +147,7 @@ MonoBehaviour:
   _objectGun: {fileID: 1527020034938273175}
   _Bullet: {fileID: 1943567423557166530, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
   _JumpShot: 0
-  _MovementSpeed: 13
+  _MovementSpeed: 15
   _character_rotate_speed: 10
   _jumpForce: 37
   _GroundlayerMask:

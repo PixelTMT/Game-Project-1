@@ -65,6 +65,13 @@ public class Player_Control : MonoBehaviour
     bool _stun;
     [HideInInspector]
     public DateTime dateTime = DateTime.MinValue;
+
+    public StepBlock _currentBlock = StepBlock.normal;
+
+    public enum StepBlock
+    {
+        normal, ice
+    }
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -97,12 +104,20 @@ public class Player_Control : MonoBehaviour
         GroundCheck();
         Gravity();
         isPlayerFreeFalling();
+        airControl();
         if (!_animation._Current_animation.busy)
         {
             Moving_Control(Time.fixedDeltaTime);
         }
     }
 
+    private void airControl()
+    {
+        if(_currentBlock == StepBlock.normal)
+        {
+            _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
+        }
+    }
 
     void Shoting()
     {
@@ -147,7 +162,7 @@ public class Player_Control : MonoBehaviour
     private void GroundCheck()
     {
         Ray ray = new Ray(_player.position, Vector3.down);
-        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask) && hit.collider.tag == "Ground";
+        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask);
 
         _animation.Grounded(_grounded);
     }
@@ -202,13 +217,8 @@ public class Player_Control : MonoBehaviour
         cameraFwd.y = 0;
         cameraFwd.Normalize();
 
-        Vector3 moveDirection = cameraFwd * vertical + _camera.right * horizontal;
+        Vector3 moveDirection = _MovementSpeed * (cameraFwd * vertical + _camera.right * horizontal).normalized;
 
-        if (moveDirection.magnitude > 1f)
-        {
-            moveDirection.Normalize();
-        }
-        moveDirection *= _MovementSpeed;
         bool isMoving = moveDirection != Vector3.zero;
         _animation.Moving(moveDirection.magnitude > 1f || isMoving);
 
@@ -270,15 +280,23 @@ public class Player_Control : MonoBehaviour
         {
             StartCoroutine(TakeDamage(collision.transform, _KnockPower));
         }
-        
+        else if (collision.collider.CompareTag("IceGround"))
+        {
+            _currentBlock = StepBlock.ice;
+        }
+        else // Ground
+        {
+            _currentBlock = StepBlock.normal;
+        }
     }
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.collider.CompareTag("Ground") && collision.relativeVelocity.magnitude > 1f)
+        /*
+        if(collision.collider.CompareTag("Ground") && (collision.relativeVelocity.magnitude > 15f))
         {
-            Debug.Log("Stuck");
+            Debug.Log($"Stuck with {collision.relativeVelocity.magnitude} magnitude");
             _player.Translate(Vector3.up * Time.deltaTime);
-        }
+        }*/
     }
     private void OnTriggerEnter(Collider other)
     {

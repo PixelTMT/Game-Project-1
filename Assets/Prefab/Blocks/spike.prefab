@@ -1500,6 +1500,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dirt
       objectReference: {fileID: 0}
+    - target: {fileID: 1092910722396494324, guid: 162d2f8f57192a14ab9278fc56faf57e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3149242553499254772, guid: 162d2f8f57192a14ab9278fc56faf57e, type: 3}
       propertyPath: m_Mesh
       value: 
