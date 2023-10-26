@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8296429506156772169}
   - component: {fileID: 2153597084792752145}
   - component: {fileID: 4361027412098819698}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Mesh Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
