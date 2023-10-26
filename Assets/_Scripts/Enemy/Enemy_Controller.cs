@@ -143,7 +143,7 @@ public class Enemy_Controller : MonoBehaviour
             if (_patrol != null) StopCoroutine(_patrol);
             if (_chasing != null) StopCoroutine(_chasing);
             Destroy(gameObject, 2f);
-            _animator.SetTrigger("Die");
+            _animator.SetBool(Enemy_Animation.Die, true);
             // disable collider
             GetComponent<BoxCollider>().enabled = false;
             died = true;
