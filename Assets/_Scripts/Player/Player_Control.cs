@@ -25,6 +25,8 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     float _MovementSpeed = 5f;
     [SerializeField]
+    float _IceLerpMovementSpeed = .5f;
+    [SerializeField]
     float _character_rotate_speed = 10f;
     [SerializeField]
     float _floatingAmount = 0.1f;
@@ -227,11 +229,17 @@ public class Player_Control : MonoBehaviour
     float vertical = 0;
     void Moving_Control(float time)
     {
-        // if (_animation._Current_animation == PlayerAnimation.shoting || _stun) return;
-
         Vector3 cameraFwd = _camera.forward;
         cameraFwd.y = 0;
         cameraFwd.Normalize();
+
+        float _MovementSpeed = this._MovementSpeed;
+
+        if(_currentBlock == StepBlock.ice)
+        {
+            _MovementSpeed = Mathf.MoveTowards(_rb.velocity.magnitude, _MovementSpeed, _IceLerpMovementSpeed * time);
+        }
+        Debug.Log(_MovementSpeed);
 
         Vector3 moveDirection = _MovementSpeed * (cameraFwd * vertical + _camera.right * horizontal).normalized;
 
@@ -351,19 +359,6 @@ public class Player_Control : MonoBehaviour
         yield return new WaitUntil(() => _grounded);
         _animation.Hit(false);
         _stun = false;
-    }
-    void stuckInGround()
-    {
-        var ignore =~ LayerMask.NameToLayer("Player");
-        if (Physics.SphereCast(_player.position + Vector3.down * 2f, 0.5f, Vector3.up, out RaycastHit hit, 2f, ignore))
-        {
-            Debug.Log(hit.collider.tag);
-            if (hit.collider.CompareTag("Ground"))
-            {
-                Debug.Log("Stuck in Ground");
-                _player.Translate(Vector3.up * Time.deltaTime);
-            }
-        }
     }
     private void isPlayerFreeFalling()
     {

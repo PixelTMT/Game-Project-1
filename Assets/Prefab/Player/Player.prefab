@@ -148,6 +148,7 @@ MonoBehaviour:
   _Bullet: {fileID: 1943567423557166530, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
   _JumpShot: 0
   _MovementSpeed: 14
+  _IceLerpMovementSpeed: 12
   _character_rotate_speed: 10
   _floatingAmount: 0.0155
   _minMovement: 0.05
