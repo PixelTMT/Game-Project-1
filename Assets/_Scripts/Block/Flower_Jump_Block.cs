@@ -7,29 +7,30 @@ public class Flower_Jump_Block : MonoBehaviour
     // Start is called before the first frame update
     Animator anim;
     [SerializeField] float jumpPower = 5f;
-    private bool hasPlayerJumped = false;
 
     void Start()
     { 
         anim = GetComponent<Animator>();
     }
-
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && other.TryGetComponent<Player_Control>(out Player_Control player) && player._grounded)
+        if (other.CompareTag("Player") &&
+            other.TryGetComponent<Player_Control>(out Player_Control player) &&
+            player._grounded)
         {
-            Debug.Log("JUMP!");
-            anim.SetBool("isPlayerOnIt", true);
+            Debug.Log("Flower JUMP!");
             anim.SetTrigger("jumpTrigger");
-            hasPlayerJumped = true;
             player.jump(jumpPower);
         }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        anim.SetBool("isPlayerOnIt", false);
-        hasPlayerJumped = false;
+
     }
 
     // Update is called once per frame
