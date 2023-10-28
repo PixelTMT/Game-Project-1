@@ -16,7 +16,7 @@ public class Player_Control : MonoBehaviour
     float _KnockPower = 10f;
 
     [Header("Attack")]
-    [SerializeField] bool _allowGun = true;
+    [SerializeField] AttackStyle _attackStyle = AttackStyle.Melee;
     [SerializeField] GameObject _objectGun;
     [SerializeField] GameObject _Bullet;
     [SerializeField] bool _JumpShot = false;
@@ -78,6 +78,10 @@ public class Player_Control : MonoBehaviour
     {
         normal, ice, air
     }
+    public enum AttackStyle
+    {
+        Melee, Gun
+    }
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -96,7 +100,7 @@ public class Player_Control : MonoBehaviour
         if (!_animation._Current_animation.busy)
         {
             JumpingOnInput();
-            Shoting();
+            Attack();
         }
     }
 
@@ -131,14 +135,28 @@ public class Player_Control : MonoBehaviour
         }
     }
 
-    void Shoting()
+    private void Attack()
     {
-        if (!_allowGun)
+        switch (_attackStyle)
         {
-            _objectGun.SetActive(false);
-            return;
+            case AttackStyle.Melee:
+                _objectGun.SetActive(false);
+                MeleeAttack();
+                break;
+            case AttackStyle.Gun:
+                _objectGun.SetActive(true);
+                ShotingAttack();
+                break;
         }
-        else if (!_objectGun.activeSelf) _objectGun.SetActive(true);
+    }
+
+    private void MeleeAttack()
+    {
+        if(Input.GetButtonDown("Fire1")) _animation.SpinAttack();
+    }
+
+    void ShotingAttack()
+    {
         if (Input.GetButtonDown("Fire1") && !_animation._Current_animation.shoting)
         {
             if (!_grounded && !_JumpShot) return;
@@ -237,12 +255,20 @@ public class Player_Control : MonoBehaviour
 
         if(_currentBlock == StepBlock.ice)
         {
-            _MovementSpeed = Mathf.MoveTowards(_rb.velocity.magnitude, _MovementSpeed, _IceLerpMovementSpeed * time);
+            var vel = _rb.velocity;
+            vel.y = 0;
+            _MovementSpeed = Mathf.MoveTowards(vel.magnitude, this._MovementSpeed, _IceLerpMovementSpeed * time);
         }
         Debug.Log(_MovementSpeed);
-
         Vector3 moveDirection = _MovementSpeed * (cameraFwd * vertical + _camera.right * horizontal).normalized;
-
+        if (_currentBlock == StepBlock.ice && moveDirection != Vector3.zero)
+        {
+            var vel = _rb.velocity;
+            vel.y = 0;
+            moveDirection.x = Mathf.MoveTowards(vel.x, moveDirection.x, _IceLerpMovementSpeed * time);
+            moveDirection.z = Mathf.MoveTowards(vel.z, moveDirection.z, _IceLerpMovementSpeed * time);
+        }
+        Debug.Log(moveDirection);
         bool isMoving = moveDirection != Vector3.zero;
         _animation.Moving(moveDirection.magnitude > 1f || isMoving);
 
@@ -325,16 +351,6 @@ public class Player_Control : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Damage"))
-        {
-            Debug.Log($"Took damage from {other.name}");
-            StartCoroutine(TakeDamage(other.transform, _KnockPower / 2));
-        }
-        if (other.CompareTag("Enemy"))
-        {
-            Debug.Log($"Took damage from {other.name}");
-            StartCoroutine(TakeDamage(other.transform, _KnockPower));
-        }
         if (other.TryGetComponent<Coin>(out Coin coin))
         {
             coin.Collected();
@@ -352,7 +368,7 @@ public class Player_Control : MonoBehaviour
         _animation.Moving(false);
         _grounded = false;
         Instantiate(_TookDamageParticle, _player.position, Quaternion.identity, _player);
-        Vector3 knockDirection = (_player.position - source.position);
+        Vector3 knockDirection = (_player.position - source.position).normalized;
         knockDirection.y = 0;
         _rb.velocity = (knockDirection + Vector3.up) * knockPower;
         yield return new WaitForSeconds(0.3f);

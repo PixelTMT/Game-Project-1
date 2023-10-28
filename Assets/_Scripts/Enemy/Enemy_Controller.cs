@@ -7,12 +7,12 @@ public class Enemy_Controller : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField]
-    Animator _animator;
+    public Animator _animator;
     public Enemy_Animation_Controller _Animation_Controller;
 
     [Header("Attack")]
     [SerializeField]
-    float _attackRange = 5;
+    public float _attackRange = 5;
     [SerializeField]
     float _WaitTime = 0.1f;
     public GameObject _attackHitBox;
@@ -27,15 +27,14 @@ public class Enemy_Controller : MonoBehaviour
     [Header("Score")]
     [SerializeField] int _Score = 30;
 
-    Transform _Target;
-    Transform _transform;
-    Coroutine UnTarget_Coroutine;
-    Coroutine _chasing, _patrol;
-    bool died = false;
+    [HideInInspector] public Transform _Target;
+    public Transform _transform;
+    [HideInInspector] public Coroutine UnTarget_Coroutine;
+    [HideInInspector] public Coroutine _chasing, _patrol;
+    [HideInInspector] public bool died = false;
 
     void Start()
     {
-        _transform = transform;
         _attackHitBox.SetActive(false);
         _chasing = StartCoroutine(Chasing());
         _patrol = StartCoroutine(Patrol());
@@ -81,7 +80,7 @@ public class Enemy_Controller : MonoBehaviour
             }
         }
     }
-    IEnumerator Chasing()
+    public IEnumerator Chasing()
     {
         var waitFrame = new WaitForEndOfFrame();
         var waitforSec = new WaitForSeconds(_WaitTime);
@@ -89,6 +88,8 @@ public class Enemy_Controller : MonoBehaviour
         while (!died)
         {
             yield return new WaitUntil(() => _Target != null);
+            _animator.SetTrigger(Enemy_Animation.Taunt);
+            yield return new WaitWhile(() => _Animation_Controller.isBusy);
             while (_Target != null && !died)
             {
                 //animation
@@ -128,7 +129,7 @@ public class Enemy_Controller : MonoBehaviour
             _animator.SetBool(Enemy_Animation.Walk, false);
         }
     }
-    IEnumerator UnChasing()
+    public IEnumerator UnChasing()
     {
         yield return new WaitForSeconds(10f);
         _Target = null;
@@ -136,57 +137,32 @@ public class Enemy_Controller : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (died) return;
-        if (collision.collider.CompareTag("Player_Bullet"))
+        if (collision.collider.CompareTag("Player_Attack"))
         {
-            FindFirstObjectByType<Player_Control>()._score += _Score;
-            Instantiate(_hitParticel, transform.position, Quaternion.identity, transform);
-            if (_patrol != null) StopCoroutine(_patrol);
-            if (_chasing != null) StopCoroutine(_chasing);
-            Destroy(gameObject, 2f);
-            _animator.SetBool(Enemy_Animation.Die, true);
-            // disable collider
-            GetComponent<BoxCollider>().enabled = false;
-            died = true;
+            GoDie();
         }
+    }
+
+    public void GoDie()
+    {
+        FindFirstObjectByType<Player_Control>()._score += _Score;
+        Instantiate(_hitParticel, transform.position, Quaternion.identity, transform);
+        if (_patrol != null) StopCoroutine(_patrol);
+        if (_chasing != null) StopCoroutine(_chasing);
+        Destroy(gameObject, 2f);
+        _animator.SetBool(Enemy_Animation.Die, true);
+        // disable collider
+        GetComponent<BoxCollider>().enabled = false;
+        died = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (died) return;
-        if (other.tag == "Player")
+        if (other.CompareTag("Player_Attack"))
         {
-            if (UnTarget_Coroutine != null) StopCoroutine(UnTarget_Coroutine);
-            if (_Target == null) _animator.SetTrigger(Enemy_Animation.Taunt);
-            _Target = other.transform;
-        }
-
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if (died) return;
-        if (other.tag == "Player")
-        {
-            Vector3 p_dist = other.transform.position;
-            p_dist.y = 0;
-
-            Vector3 e_dist = transform.position;
-            e_dist.y = 0;
-
-            if (Vector3.Distance(e_dist, p_dist) < _attackRange)
-            {
-                _animator.SetBool(Enemy_Animation.Walk, false);
-                _animator.SetBool(Enemy_Animation.Attack, true);
-                _attackHitBox.SetActive(true);
-            }
-            _Target = other.transform;
-        }
-
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            UnTarget_Coroutine = StartCoroutine(UnChasing());
+            Debug.Log(other.name);
+            GoDie();
         }
     }
 
@@ -200,15 +176,15 @@ public class Enemy_Controller : MonoBehaviour
 
         Debug.DrawLine(transform.position, raycastDirection);
 
-       if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance))
+        if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance))
         {
-            if (hit.collider.CompareTag("Ground")) 
+            if (hit.collider.CompareTag("Ground"))
             {
-                return true; 
+                return true;
             }
         }
 
-        return false; 
+        return false;
     }
 
     public void setPatrolPath(Transform patrolPath)

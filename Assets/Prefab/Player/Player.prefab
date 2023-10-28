@@ -142,13 +142,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animation: {fileID: 661773495939738886}
-  _KnockPower: 35
-  _allowGun: 1
+  _KnockPower: 20
+  _attackStyle: 0
   _objectGun: {fileID: 1527020034938273175}
   _Bullet: {fileID: 1943567423557166530, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
   _JumpShot: 0
   _MovementSpeed: 14
-  _IceLerpMovementSpeed: 12
+  _IceLerpMovementSpeed: 20
   _character_rotate_speed: 10
   _floatingAmount: 0.0155
   _minMovement: 0.05
@@ -429,7 +429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2196278930394457901
 Transform:
   m_ObjectHideFlags: 0
@@ -512,9 +512,10 @@ Transform:
   - {fileID: 6545332729033423451}
   - {fileID: 8034830250063742325}
   - {fileID: 2974561114635071534}
+  - {fileID: 3456565413503098830}
   m_Father: {fileID: 5777885441320331466}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: -225, z: 0}
 --- !u!95 &127110225331552996
 Animator:
   serializedVersion: 5
@@ -754,7 +755,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4953363866740810866}
-  m_LocalRotation: {x: -0.46043143, y: -0.017928442, z: 0.006607286, w: 0.8874896}
+  m_LocalRotation: {x: -0.46043515, y: -0.017925035, z: 0.006608898, w: 0.88748777}
   m_LocalPosition: {x: -0.00000002188608, y: 0.7739536, z: 0.00000001542503}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
   m_ConstrainProportionsScale: 0
@@ -763,7 +764,7 @@ Transform:
   - {fileID: 184079836565662778}
   m_Father: {fileID: 1011768442969365584}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -54.788, y: -3.769, z: 2.807}
 --- !u!1 &5222155103513501257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,6 +1041,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6416533929234941476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3456565413503098830}
+  - component: {fileID: 7624594614533555199}
+  m_Layer: 7
+  m_Name: SpinAttackCollider
+  m_TagString: Player_Attack
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3456565413503098830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6416533929234941476}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2716161449104342313}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7624594614533555199
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6416533929234941476}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Center: {x: 0, y: 0, z: 0.5}
 --- !u!1 &6735937733895645295
 GameObject:
   m_ObjectHideFlags: 0

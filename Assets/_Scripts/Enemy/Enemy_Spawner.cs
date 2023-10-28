@@ -18,7 +18,7 @@ public class Enemy_Spawner : MonoBehaviour
         if (enemyPrefab != null)
         {
             GameObject newEnemy = Instantiate(enemyPrefab, transform, false);
-            newEnemy.GetComponent<Enemy_Controller>().setPatrolPath(path);
+            newEnemy.GetComponentInChildren<Enemy_Controller>().setPatrolPath(path);
         }
 
     }

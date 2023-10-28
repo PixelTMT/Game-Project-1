@@ -9,8 +9,8 @@ TagManager:
   - Enemy
   - Trap
   - PowerBlock
-  - Player_Bullet
   - IceGround
+  - Player_Attack
   layers:
   - Default
   - TransparentFX

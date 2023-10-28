@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 7013552596427047485}
   - component: {fileID: 6543411312181235543}
   m_Layer: 0
-  m_Name: Enemy D (INCOMPLETE)
+  m_Name: (Unfinish) Enemy D
   m_TagString: Damage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

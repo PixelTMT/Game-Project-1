@@ -43,6 +43,14 @@ public class Player_Animation_Control : MonoBehaviour
         _animator.SetBool("Knock", knock);
         _Current_animation.knock = _Current_animation.busy = knock;
     }
+    public void SpinAttack()
+    {
+        if(!_Current_animation.spinAttack) _animator.Play("SpinAttack");
+    }
+    public void Shot()
+    {
+        _animator.SetTrigger("Shot");
+    }
     Coroutine _AutoResetAnim;
     public void animation_event(string Event)
     {
@@ -57,7 +65,10 @@ public class Player_Animation_Control : MonoBehaviour
         {
             _Current_animation.shoting = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
         }
-
+        else if (_Event[0] == "SpinAttack")
+        {
+            _Current_animation.spinAttack = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+        }
         //StopCoroutine(_AutoResetAnim);
         //_AutoResetAnim = StartCoroutine(AutoResetAnimation(1.5f));
 
@@ -67,18 +78,15 @@ public class Player_Animation_Control : MonoBehaviour
         yield return new WaitForSeconds(Time);
         resetAnimation();
     }
-    public void Shot()
-    {
-        _animator.SetTrigger("Shot");
-    }
+
     public void resetAnimation()
     {
-        _Current_animation.knock = _Current_animation.shoting = _Current_animation.busy = false;
+        _Current_animation.knock = _Current_animation.spinAttack = _Current_animation.shoting = _Current_animation.busy = false;
     }
 }
 public class PlayerAnimation
 {
-    public bool idle, jumping, running, shoting, knock, busy;
+    public bool idle, jumping, running, spinAttack, shoting, knock, busy;
 }
 
 
