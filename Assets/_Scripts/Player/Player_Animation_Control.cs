@@ -35,6 +35,7 @@ public class Player_Animation_Control : MonoBehaviour
     }
     public void Jump()
     {
+        _Current_animation.jumping = true;
         _animator.SetTrigger("Jumping");
         _animator.SetBool("Grounded", false);
     }
@@ -49,6 +50,7 @@ public class Player_Animation_Control : MonoBehaviour
     }
     public void Shot()
     {
+        _Current_animation.shoting = _Current_animation.busy = true;
         _animator.SetTrigger("Shot");
     }
     Coroutine _AutoResetAnim;
@@ -56,18 +58,21 @@ public class Player_Animation_Control : MonoBehaviour
     {
         string[] _Event = Event.Split('_');
         Debug.Log($"Name {_Event[0]} | Type : {_Event[1]}");
-        if (_Event[0] == "knock")
+        switch (_Event[0])
         {
-            //_Current_animation.knock = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
-            //_animator.SetBool("Knock", _Current_animation.knock);
-        }
-        else if (_Event[0] == "Shoting")
-        {
-            _Current_animation.shoting = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
-        }
-        else if (_Event[0] == "SpinAttack")
-        {
-            _Current_animation.spinAttack = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+            case "knock":
+                //_Current_animation.knock = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+                //_animator.SetBool("Knock", _Current_animation.knock);
+                break;
+            case "Shoting":
+                _Current_animation.shoting = _Current_animation.busy = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+                break;
+            case "SpinAttack":
+                _Current_animation.spinAttack = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+                break;
+            case "Jump":
+                _Current_animation.jumping = Convert.ToBoolean(Convert.ToInt32(_Event[1]));
+                break;
         }
         //StopCoroutine(_AutoResetAnim);
         //_AutoResetAnim = StartCoroutine(AutoResetAnimation(1.5f));

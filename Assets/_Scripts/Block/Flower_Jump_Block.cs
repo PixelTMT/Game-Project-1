@@ -15,27 +15,11 @@ public class Flower_Jump_Block : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") &&
-            other.TryGetComponent<Player_Control>(out Player_Control player) &&
-            player._grounded)
+            other.TryGetComponent<Player_Control>(out Player_Control player))
         {
             Debug.Log("Flower JUMP!");
             anim.SetTrigger("jumpTrigger");
             player.jump(jumpPower);
         }
-    }
-    private void OnTriggerStay(Collider other)
-    {
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

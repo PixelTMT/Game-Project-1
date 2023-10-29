@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &127110226127038955
 Transform:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
   _GroundlayerMask:
     serializedVersion: 2
     m_Bits: 8
-  _GroundDetectLength: 2.5
+  _GroundDetectLength: 1.25
   _grounded: 1
   _GravityPower: 1.9
   _VelosityMax: 100

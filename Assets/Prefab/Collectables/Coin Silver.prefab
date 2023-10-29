@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2806873809777607417}
   - component: {fileID: 6599665243873799499}
   - component: {fileID: 2647821595951007175}
+  - component: {fileID: -6570122488150695227}
   m_Layer: 2
   m_Name: Coin Silver
   m_TagString: Untagged
@@ -108,8 +109,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3296587061226903619}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.379999, y: 1, z: 20.4}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -143,7 +144,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 20
-  spin_amount: 5
-  y_amount: 0.5
   color: {r: 0.654902, g: 0.69803923, b: 0.69803923, a: 1}
   particle: {fileID: 1200605140763519173, guid: 635983d2dc500ad4d9f2286421e4cb7d, type: 3}
+--- !u!114 &-6570122488150695227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3296587061226903619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9956793e86aaff46b2f8d61e7a44a46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spin_amount: 5
+  y_amount: 0.5

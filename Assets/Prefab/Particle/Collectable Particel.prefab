@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8573116453434670183}
   - component: {fileID: 6489984848924790871}
   m_Layer: 0
-  m_Name: Coin Particel
+  m_Name: Collectable Particel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

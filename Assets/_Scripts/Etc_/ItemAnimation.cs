@@ -2,25 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class ItemAnimation : MonoBehaviour
 {
-    [SerializeField]
-    public float value = 1;
-
     [SerializeField]
     float spin_amount = 5f;
 
     [SerializeField]
-    float y_amount = 1f;
-
-    [SerializeField]
-    public Color color;
-
-    [SerializeField]
-    public GameObject particle;
+    float y_amount = .5f;
     IEnumerator Start()
     {
-        while(gameObject.activeSelf)
+        while (gameObject.activeSelf)
         {
             float y = Mathf.Sin(Time.time) * y_amount;
             var coin = transform.GetChild(0);
@@ -30,10 +21,10 @@ public class Coin : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
-    public void Collected()
+
+    // Update is called once per frame
+    void Update()
     {
-        var p = Instantiate(particle, transform.localToWorldMatrix.GetPosition(), Quaternion.identity);
-        p.GetComponent<ParticleSystem>().startColor = color;
-        Destroy(gameObject);
+        
     }
 }

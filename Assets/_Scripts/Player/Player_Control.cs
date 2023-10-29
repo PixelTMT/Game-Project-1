@@ -108,7 +108,7 @@ public class Player_Control : MonoBehaviour
     private void FixedUpdate()
     {
         VisionFace();
-        AimEnemy();
+        //AimEnemy(); // BROKE AAAAAAAAAAAAAAAAAA
         _EnemyList.Clear();
         //stuckInGround();
         GroundCheck();
@@ -129,7 +129,7 @@ public class Player_Control : MonoBehaviour
 
     private void airControl()
     {
-        if(_currentBlock == StepBlock.normal && !_stun)
+        if (_currentBlock == StepBlock.normal && !_stun)
         {
             _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
         }
@@ -152,14 +152,14 @@ public class Player_Control : MonoBehaviour
 
     private void MeleeAttack()
     {
-        if(Input.GetButtonDown("Fire1")) _animation.SpinAttack();
+        if (Input.GetButtonDown("Fire1")) _animation.SpinAttack();
     }
 
     void ShotingAttack()
     {
         if (Input.GetButtonDown("Fire1") && !_animation._Current_animation.shoting)
         {
-            if (!_grounded && !_JumpShot) return;
+            if (!_grounded && !_JumpShot || _animation._Current_animation.jumping) return;
             if (dateTime == DateTime.MinValue)
             {
                 Debug.Log("Shot");
@@ -179,7 +179,7 @@ public class Player_Control : MonoBehaviour
             _player.rotation = lookTo;
 
             // summon bullet
-            Destroy(Instantiate(_Bullet, _player.position, _player.rotation), 5f);
+            Destroy(Instantiate(_Bullet, _player.position + _player.forward, _player.rotation), 5f);
             _animation.Shot();
         }
 
@@ -192,7 +192,7 @@ public class Player_Control : MonoBehaviour
     private void GroundCheck()
     {
         Ray ray = new Ray(_player.position, Vector3.down);
-        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.5f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask);
+        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.2f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask);
 
         //make it float a bit
         if (_grounded)
@@ -253,22 +253,21 @@ public class Player_Control : MonoBehaviour
 
         float _MovementSpeed = this._MovementSpeed;
 
-        if(_currentBlock == StepBlock.ice)
+        if (_currentBlock == StepBlock.ice)
         {
             var vel = _rb.velocity;
             vel.y = 0;
             _MovementSpeed = Mathf.MoveTowards(vel.magnitude, this._MovementSpeed, _IceLerpMovementSpeed * time);
         }
-        Debug.Log(_MovementSpeed);
+        //Debug.Log(_MovementSpeed);
         Vector3 moveDirection = _MovementSpeed * (cameraFwd * vertical + _camera.right * horizontal).normalized;
-        if (_currentBlock == StepBlock.ice && moveDirection != Vector3.zero)
+        /*if (_currentBlock == StepBlock.ice && moveDirection != Vector3.zero)
         {
             var vel = _rb.velocity;
             vel.y = 0;
-            moveDirection.x = Mathf.MoveTowards(vel.x, moveDirection.x, _IceLerpMovementSpeed * time);
-            moveDirection.z = Mathf.MoveTowards(vel.z, moveDirection.z, _IceLerpMovementSpeed * time);
-        }
-        Debug.Log(moveDirection);
+            moveDirection = Vector3.MoveTowards(vel, moveDirection, _IceLerpMovementSpeed * time);
+        }*/
+        //Debug.Log(moveDirection);
         bool isMoving = moveDirection != Vector3.zero;
         _animation.Moving(moveDirection.magnitude > 1f || isMoving);
 
@@ -295,6 +294,11 @@ public class Player_Control : MonoBehaviour
         if (!_EnemyList.Contains(transform))
             _EnemyList.Add(transform);
     }
+    public void RemoveEnemyList(Transform transform)
+    {
+        if (_EnemyList.Contains(transform))
+            _EnemyList.Remove(transform);
+    }
     private void AimEnemy()
     {
         float closest_Enemy_dist = float.MaxValue;
@@ -304,7 +308,7 @@ public class Player_Control : MonoBehaviour
             // Check FOV
             try
             {
-                var direction = enemy.position - _player.position;
+                var direction = (enemy.position - _player.position).normalized;
                 Ray ray = new Ray(_player.position, direction);
                 if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Enemy"))
                 {
@@ -318,9 +322,9 @@ public class Player_Control : MonoBehaviour
                     }
                 }
             }
-            catch
+            catch (Exception e) 
             {
-
+                Debug.LogError(e);
             }
         }
         _closestEnemyPostition = closest_Enemy;
@@ -331,7 +335,7 @@ public class Player_Control : MonoBehaviour
         {
             StartCoroutine(TakeDamage(collision.transform, _KnockPower));
         }
-        else if (collision.collider.CompareTag("IceGround"))
+        if (collision.collider.CompareTag("IceGround"))
         {
             _currentBlock = StepBlock.ice;
         }
@@ -351,10 +355,18 @@ public class Player_Control : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Coin>(out Coin coin))
+        if (other.TryGetComponent<Collectable>(out Collectable collectable))
         {
-            coin.Collected();
-            _score += (int)coin.value;
+            switch (collectable.collectedType)
+            {
+                case Collectable.CollectedType.coin:
+                    _score += (int)collectable.value;
+                    break;
+                case Collectable.CollectedType.gun:
+                    _attackStyle = AttackStyle.Gun;
+                    break;
+            }
+            collectable.Collected();
         }
         if (other.CompareTag("Finish"))
         {

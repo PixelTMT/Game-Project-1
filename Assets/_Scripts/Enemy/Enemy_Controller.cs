@@ -152,7 +152,7 @@ public class Enemy_Controller : MonoBehaviour
         Destroy(gameObject, 2f);
         _animator.SetBool(Enemy_Animation.Die, true);
         // disable collider
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponentInChildren<BoxCollider>().enabled = false;
         died = true;
     }
 

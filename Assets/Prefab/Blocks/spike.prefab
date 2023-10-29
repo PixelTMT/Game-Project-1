@@ -166,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7155758403219386564}
   - component: {fileID: 2412254589171246262}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: DamageCollider
   m_TagString: Damage
   m_Icon: {fileID: 0}

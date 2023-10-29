@@ -6082,7 +6082,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.48
+  - time: 0.6
     functionName: animation_event
     data: Shoting_0
     objectReferenceParameter: {fileID: 11500000, guid: 1af1f531e325b5f40bcd22027dfedca6, type: 3}
