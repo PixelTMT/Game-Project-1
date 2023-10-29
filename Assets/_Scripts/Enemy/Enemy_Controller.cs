@@ -15,7 +15,6 @@ public class Enemy_Controller : MonoBehaviour
     public float _attackRange = 5;
     [SerializeField]
     float _WaitTime = 0.1f;
-    public GameObject _attackHitBox;
     [SerializeField] GameObject _hitParticel;
 
     [Header("Movement")]
@@ -35,7 +34,6 @@ public class Enemy_Controller : MonoBehaviour
 
     void Start()
     {
-        _attackHitBox.SetActive(false);
         _chasing = StartCoroutine(Chasing());
         _patrol = StartCoroutine(Patrol());
     }
@@ -96,7 +94,6 @@ public class Enemy_Controller : MonoBehaviour
                 if (_Animation_Controller.isBusy)
                 {
                     yield return new WaitWhile(() => _Animation_Controller.isBusy);
-                    _attackHitBox.SetActive(false);
                     _animator.SetBool(Enemy_Animation.Attack, false);
                     float speed = _animator.speed;
                     _animator.speed = 0;

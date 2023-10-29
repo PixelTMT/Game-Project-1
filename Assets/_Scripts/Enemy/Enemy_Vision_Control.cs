@@ -29,7 +29,6 @@ public class Enemy_Vision_Control : MonoBehaviour
             {
                 controller._animator.SetBool(Enemy_Animation.Walk, false);
                 controller._animator.SetBool(Enemy_Animation.Attack, true);
-                controller._attackHitBox.SetActive(true);
             }
             controller._Target = other.transform;
         }
