@@ -136,6 +136,7 @@ public class Enemy_Controller : MonoBehaviour
         if (died) return;
         if (collision.collider.CompareTag("Player_Attack"))
         {
+            Destroy(collision.gameObject);
             GoDie();
         }
     }

@@ -145,7 +145,7 @@ MonoBehaviour:
   _KnockPower: 20
   _attackStyle: 0
   _objectGun: {fileID: 1527020034938273175}
-  _Bullet: {fileID: 1943567423557166530, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
+  _Bullet: {fileID: 1562198527303136244, guid: 1000906987e4b764382d32d80262a8ad, type: 3}
   _JumpShot: 0
   _MovementSpeed: 14
   _IceLerpMovementSpeed: 20

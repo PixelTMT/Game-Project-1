@@ -179,7 +179,10 @@ public class Player_Control : MonoBehaviour
             _player.rotation = lookTo;
 
             // summon bullet
-            Destroy(Instantiate(_Bullet, _player.position + _player.forward, _player.rotation), 5f);
+            var bullet = _Bullet;
+            var bulletEulerAngle = bullet.transform.eulerAngles;
+            bullet.transform.rotation = Quaternion.Euler(bulletEulerAngle.x, bulletEulerAngle.y - 90, bulletEulerAngle.z);
+            Destroy(Instantiate(bullet, _player.position + _player.forward, _player.rotation), 5f);
             _animation.Shot();
         }
 
@@ -322,7 +325,7 @@ public class Player_Control : MonoBehaviour
                     }
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Debug.LogError(e);
             }
