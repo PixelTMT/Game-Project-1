@@ -56,7 +56,7 @@ public class Enemy2_Controller : MonoBehaviour
 
     public void ThrowRock()
     {
-        Destroy(Instantiate(_Rock, _transform.position + (_transform.forward * 2) + (_transform.up * 2), _transform.rotation), 5);
+        Destroy(Instantiate(_Rock, _transform.GetChild(0).Find("Rock").position, _transform.rotation), 5);
         Debug.Log("ThrowRock");
     }
 
