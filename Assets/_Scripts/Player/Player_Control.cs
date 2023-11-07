@@ -48,6 +48,8 @@ public class Player_Control : MonoBehaviour
     [SerializeField]
     Transform _camera;
     [SerializeField]
+    Transform _audioListener;
+    [SerializeField]
     float _cameraDistance = 5f;
     public float _cameraSensitivity = 4f;
     [SerializeField]
@@ -240,7 +242,7 @@ public class Player_Control : MonoBehaviour
         currentRotationX = Mathf.Clamp(currentRotationX, 0, 70);
 
         Quaternion rotation = Quaternion.Euler(currentRotationX, _camera.eulerAngles.y + mouseX, 0);
-        _camera.rotation = _camVision.rotation = rotation;
+        _camera.rotation = _audioListener.rotation = _camVision.rotation = rotation;
 
         Vector3 desiredPosition = (_player.position - rotation * Vector3.forward * _cameraDistance) + _camOffset;
 
