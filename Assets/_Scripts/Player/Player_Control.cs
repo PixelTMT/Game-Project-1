@@ -89,6 +89,7 @@ public class Player_Control : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _player = transform;
         if (_camera == null) _camera = Camera.main.transform;
+        //_camera.rotation = Quaternion.Euler(Vector3.zero);
         initialPosition = transform.position;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
@@ -197,7 +198,8 @@ public class Player_Control : MonoBehaviour
     private void GroundCheck()
     {
         Ray ray = new Ray(_player.position, Vector3.down);
-        _grounded = Physics.BoxCast(ray.origin, new Vector3(2, 0.2f, 2), Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask);
+        var halfE = new Vector3(_player.localScale.x * 0.8f, _player.localScale.y * 0.2f, _player.localScale.z * 0.8f);
+        _grounded = Physics.BoxCast(ray.origin, halfE, Vector3.down, out RaycastHit hit, Quaternion.identity, _GroundDetectLength, _GroundlayerMask);
 
         //make it float a bit
         if (_grounded)
@@ -227,6 +229,7 @@ public class Player_Control : MonoBehaviour
         vel.y = 0;
         _rb.velocity = vel + Vector3.up * jumpForce;
         _animation.Jump();
+
     }
 
 
@@ -403,7 +406,7 @@ public class Player_Control : MonoBehaviour
             _animation.resetAnimation();
             _live--;
         }
-        if (_rb.velocity.y < -_VelosityMax)
+        if (_rb.velocity.y <= -_VelosityMax)
         {
             _rb.velocity = new Vector3(_rb.velocity.x, -_VelosityMax, _rb.velocity.z);
         }

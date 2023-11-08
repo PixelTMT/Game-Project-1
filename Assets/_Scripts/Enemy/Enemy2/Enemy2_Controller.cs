@@ -16,6 +16,7 @@ public class Enemy2_Controller : MonoBehaviour
     [SerializeField] int _Score = 20;
 
     [SerializeField] GameObject _hitParticel;
+    [SerializeField] public Transform _vision;
     [HideInInspector] public Transform _Target;
     [HideInInspector] public Transform _transform;
     [HideInInspector] public Coroutine UnTarget_Coroutine;
@@ -45,6 +46,7 @@ public class Enemy2_Controller : MonoBehaviour
             var lookTo = _Target.position;
             lookTo.y = _transform.position.y;
             _transform.LookAt(lookTo);
+            _vision.LookAt(lookTo);
         }
     }
 
@@ -56,7 +58,9 @@ public class Enemy2_Controller : MonoBehaviour
 
     public void ThrowRock()
     {
-        Destroy(Instantiate(_Rock, _transform.GetChild(0).Find("Rock").position, _transform.rotation), 5);
+        GameObject ThownRock = Instantiate(_Rock, _transform.GetChild(0).Find("Rock").position, Quaternion.identity);
+        ThownRock.transform.LookAt(_Target);
+        Destroy(ThownRock, 5);
         Debug.Log("ThrowRock");
     }
 

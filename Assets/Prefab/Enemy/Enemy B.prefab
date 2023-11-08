@@ -5419,6 +5419,7 @@ MonoBehaviour:
   _Rock: {fileID: 8517147483184773383, guid: c678bfdcefd86dc4cab2d290f504664e, type: 3}
   _Score: 20
   _hitParticel: {fileID: 2442005141402185278, guid: 86e5dcc2a0d9e6d44b90059f65425798, type: 3}
+  _vision: {fileID: 1815238944180603126}
   _Target: {fileID: 0}
   _transform: {fileID: 0}
   died: 0
@@ -5557,7 +5558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8039164167851082946
 Transform:
   m_ObjectHideFlags: 0
@@ -5583,7 +5584,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4140252019679928514, guid: 1647918a4e52b2b4eb19ad1202dd226f, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e2aacb3ccede354439d0a696bcfa6bd9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -5594,9 +5595,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 30
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
