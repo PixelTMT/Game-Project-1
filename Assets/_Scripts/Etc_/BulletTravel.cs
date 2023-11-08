@@ -25,6 +25,9 @@ public class BulletTravel : MonoBehaviour
     private void OnDisable()
     {
         var p = Instantiate(_ImpactParticle, transform.localToWorldMatrix.GetPosition(), Quaternion.identity);
+        Transform sfx = transform.Find("SoundFX");
+        sfx.SetParent(p.transform);
+        sfx.Find("Exploded").GetComponent<AudioSource>().Play();
         p.GetComponent<ParticleSystem>().startColor = _ImpactParticleColor;
     }
 }

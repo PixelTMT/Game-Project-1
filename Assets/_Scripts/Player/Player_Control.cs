@@ -63,6 +63,7 @@ public class Player_Control : MonoBehaviour
     public Vector3 initialPosition;
 
     [Header("Etc.")]
+    public Player_Sound_Manager _PlayerSound;
     public GameObject _TookDamageParticle;
     public int _score = 0;
     public int _live = 3;
@@ -375,6 +376,7 @@ public class Player_Control : MonoBehaviour
                     break;
             }
             collectable.Collected();
+            _PlayerSound.CollectSound();
         }
         if (other.CompareTag("Finish"))
         {
@@ -383,6 +385,7 @@ public class Player_Control : MonoBehaviour
     }
     IEnumerator TakeDamage(Transform source, float knockPower)
     {
+        _PlayerSound.HurtSound();
         _stun = true;
         _animation.Hit(true);
         _animation.Moving(false);
