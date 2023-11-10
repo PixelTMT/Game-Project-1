@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6272564292778472611}
   - component: {fileID: 4165078084278847483}
   - component: {fileID: 1777569466640705944}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 30
+  collectedType: 0
   color: {r: 0.76470596, g: 0.5764706, b: 0.25490198, a: 1}
   particle: {fileID: 1200605140763519173, guid: 635983d2dc500ad4d9f2286421e4cb7d, type: 3}
 --- !u!114 &5890053282956287458

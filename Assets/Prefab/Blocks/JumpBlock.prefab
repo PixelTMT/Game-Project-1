@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 1007450295205337927}
   - component: {fileID: 6129847717980222530}
   - component: {fileID: 38769022588281320}
+  - component: {fileID: 7179911386487278188}
   m_Layer: 0
   m_Name: JumpBlock
   m_TagString: PowerBlock
@@ -351,6 +352,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalRenderers:
   - {fileID: 4130482816969917298}
+--- !u!114 &7179911386487278188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473197805078274727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2495433073022496282
 GameObject:
   m_ObjectHideFlags: 0

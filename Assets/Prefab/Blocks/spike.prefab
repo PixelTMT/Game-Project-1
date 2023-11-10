@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 2061650334256439372}
   - component: {fileID: 5017337171259096358}
   - component: {fileID: 8921632600330116354}
+  - component: {fileID: 6301872886381715805}
   m_Layer: 3
   m_Name: spike
   m_TagString: Ground
@@ -156,6 +157,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 4054303082001829278}
   m_Enabled: 1
+--- !u!114 &6301872886381715805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2320722856056699496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &7745624207856091029
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7155758403219386564}
   - component: {fileID: 2412254589171246262}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: DamageCollider
   m_TagString: Damage
   m_Icon: {fileID: 0}
