@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
     [SerializeField] AudioMixer mixer;
     [SerializeField] Slider VolumeSliderMaster;
     [SerializeField] Slider VolumeSliderMusic;
@@ -15,12 +14,6 @@ public class AudioManager : MonoBehaviour
     const string SFX_VOLUME = "SFXVolume";
     private void Awake()
     {
-        if(instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
         VolumeSliderMaster.onValueChanged.AddListener(VolumeChangeMaster);
         VolumeSliderMusic.onValueChanged.AddListener(VolumeChangeMusic);
         VolumeSliderSFX.onValueChanged.AddListener(VolumeChangeSFX);

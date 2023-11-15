@@ -7,6 +7,7 @@ public class BulletTravel : MonoBehaviour
     [SerializeField] float speed = 20f;
     [SerializeField] GameObject _ImpactParticle;
     [SerializeField] Color _ImpactParticleColor = Color.white;
+    Transform sfx;
     private void Awake()
     {
     }
@@ -22,12 +23,17 @@ public class BulletTravel : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnEnable()
+    {
+        sfx = transform.Find("SoundFX");
+    }
     private void OnDisable()
     {
         var p = Instantiate(_ImpactParticle, transform.localToWorldMatrix.GetPosition(), Quaternion.identity);
-        Transform sfx = transform.Find("SoundFX");
+        if (!sfx.gameObject.activeInHierarchy) return;
         sfx.SetParent(p.transform);
         sfx.Find("Exploded").GetComponent<AudioSource>().Play();
-        p.GetComponent<ParticleSystem>().startColor = _ImpactParticleColor;
+        var particle_main = p.GetComponent<ParticleSystem>().main;
+        particle_main.startColor = _ImpactParticleColor;
     }
 }

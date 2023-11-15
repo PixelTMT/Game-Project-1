@@ -25,7 +25,8 @@ public class Collectable : MonoBehaviour
     public void Collected()
     {
         var p = Instantiate(particle, transform.localToWorldMatrix.GetPosition(), Quaternion.identity);
-        p.GetComponent<ParticleSystem>().startColor = color;
+        var particle_main = p.GetComponent<ParticleSystem>().main;
+        particle_main.startColor = color;
         Destroy(gameObject);
     }
 }

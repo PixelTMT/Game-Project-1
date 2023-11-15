@@ -8,6 +8,7 @@ public class Enemy_Vision_Control : MonoBehaviour
     [SerializeField] Transform enemy;
 
     Transform _transform;
+    Coroutine LoseTrack;
     private void Awake()
     {
         _transform = transform;
@@ -33,21 +34,19 @@ public class Enemy_Vision_Control : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (controller.died) return;
-        if (other.tag == "Player")
-        {
-            Vector3 p_dist = other.transform.position;
-            p_dist.y = 0;
-
-            Vector3 e_dist = transform.position;
-            e_dist.y = 0;
-
-            controller._Target = other.transform;
-        }
 
     }
     private void OnTriggerExit(Collider other)
     {
-
+        if (other.tag == "Player")
+        {
+            if (LoseTrack != null) StopCoroutine(LoseTrack);
+            LoseTrack = StartCoroutine(loseTarget(5));
+        }
+    }
+    IEnumerator loseTarget(float time)
+    {
+        yield return new WaitForSeconds(time);
+        controller._Target = null;
     }
 }

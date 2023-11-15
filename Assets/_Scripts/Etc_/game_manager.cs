@@ -7,57 +7,100 @@ using UnityEngine.SceneManagement;
 
 public class game_manager : MonoBehaviour
 {
-    [SerializeField]
-    Player_Control player;
+    [SerializeField] UIChangeManage _UIC;
+    [SerializeField] Player_Control _player;
+    [SerializeField] public PlayerUI _pUI;
+    [SerializeField] public GameOverUI _oUI;
+    [SerializeField] GameObject backLightPauseUI;
 
-    [SerializeField]
-    Player_Animation_Control _animation;
-
-    [SerializeField]
-    GameObject PlayerUI;
-
-    [SerializeField]
-    GameObject GameOverUI;
-
-    [SerializeField]
-    GameObject GameFinishUI;
-
-    public bool _GameOver = false;
-    bool _GameFinish = false;
-    private IEnumerator Start()
+    [HideInInspector] public bool isPause = false;
+    [HideInInspector] public bool isGameOver = false;
+    private void Start()
     {
-        
-        PlayerUI = Instantiate(PlayerUI);
-        while (!_GameFinish && !_GameOver)
+        if (backLightPauseUI != null) backLightPauseUI.SetActive(false);
+    }
+    private void Update()
+    {
+        if (isGameOver) return;
+        _pUI.UpdateHP(_player._live);
+        _pUI.UpdateScore(_player._score);
+        PauseManage();
+    }
+    void PauseManage()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (player._live <= 0)
-            {
-                _GameOver = true;
-                GameFinish("Game Over");
-                player.gameObject.SetActive(false);
-            }
-            yield return new WaitForFixedUpdate();
+            pausing();
+        }
+    }
+    public void pausing()
+    {
+        if (!isPause)
+        {
+            isPause = true;
+            Time.timeScale = 0;
+            _UIC.OpenUIName("Pause");
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            if (backLightPauseUI != null) backLightPauseUI.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            isPause = false;
+            _UIC.OpenUIName("");
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            if (backLightPauseUI != null) backLightPauseUI.SetActive(false);
         }
     }
 
-    public void GameFinish(string msg, bool time = false)
+    public void GameOver()
     {
-        UnityEngine.Cursor.lockState = CursorLockMode.None;
-        GameOverUI = Instantiate(GameOverUI);
-        player._animation.Moving(false);
-        player.enabled = false;
+        _UIC.OpenUIName("GameOver");
+        _oUI.UpdateGameOver("Game Over");
+        _oUI.UpdateScore(_player._score);
+        _player.enabled = false;
+        isGameOver = true;
+        _pUI.UpdateHP(0);
+    }
+    public void GameFinish()
+    {
+        _UIC.OpenUIName("GameOver");
+        _oUI.UpdateGameOver("Congrats");
+        _oUI.UpdateScore(_player._score, _player.dateTime);
+        _player.enabled = false;
+        isGameOver = true;
+    }
 
-        foreach (Transform t in GameOverUI.transform)
+    [Serializable]
+    public class PlayerUI
+    {
+        public TextMeshProUGUI HP_Text;
+        public TextMeshProUGUI Score_Text;
+        public void UpdateHP(int n)
         {
-            if(t.name == "Gameover")
-            {
-                if(time) msg += $"\n{DateTime.Now - player.dateTime}";
-                t.GetComponent<TextMeshProUGUI>().text = msg;
-            }
-            else if (t.name == "Score")
-            {
-                t.GetComponent<TextMeshProUGUI>().text = $"Score: {player._score}";
-            }
+            HP_Text.text = $"{n}x";
+        }
+        public void UpdateScore(int n)
+        {
+            Score_Text.text = $"Score: {n}";
+        }
+    }
+    [Serializable]
+    public class GameOverUI
+    {
+        public TextMeshProUGUI GameOver_Text;
+        public TextMeshProUGUI Score_Text;
+        public void UpdateGameOver(string msg)
+        {
+            GameOver_Text.text = $"{msg}";
+        }
+        public void UpdateScore(int score)
+        {
+            Score_Text.text = $"Score: {score}";
+        }
+        public void UpdateScore(int score, DateTime time)
+        {
+            Score_Text.text = $"Score: {score}\nTime: {DateTime.Now - time}";
         }
     }
 }

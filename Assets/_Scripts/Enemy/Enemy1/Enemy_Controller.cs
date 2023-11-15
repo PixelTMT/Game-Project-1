@@ -14,7 +14,6 @@ public class Enemy_Controller : MonoBehaviour
     [SerializeField] GameObject _hitParticel;
 
     [Header("Movement")]
-    [SerializeField] float raycastDistance = 2.0f;
     [SerializeField] Transform _PatrolPaths;
     [SerializeField] NavMeshAgent _Agent;
 

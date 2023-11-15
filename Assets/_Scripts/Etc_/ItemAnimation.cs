@@ -11,6 +11,7 @@ public class ItemAnimation : MonoBehaviour
     float y_amount = .5f;
     IEnumerator Start()
     {
+        var wait = new WaitForFixedUpdate();
         while (gameObject.activeSelf)
         {
             float y = Mathf.Sin(Time.time) * y_amount;
@@ -18,7 +19,7 @@ public class ItemAnimation : MonoBehaviour
             coin.localPosition = new Vector3(0, y, 0);
             coin.Rotate(Vector3.up * spin_amount);
 
-            yield return new WaitForFixedUpdate();
+            yield return wait;
         }
     }
 

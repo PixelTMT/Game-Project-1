@@ -67,6 +67,7 @@ public class Player_Control : MonoBehaviour
     public GameObject _TookDamageParticle;
     public int _score = 0;
     public int _live = 3;
+    game_manager _gm;
 
     Vector3 _closestEnemyPostition = Vector3.zero;
     Transform _player;
@@ -87,17 +88,18 @@ public class Player_Control : MonoBehaviour
     }
     void Start()
     {
+        _gm = FindFirstObjectByType<game_manager>();
         _rb = GetComponent<Rigidbody>();
         _player = transform;
         if (_camera == null) _camera = Camera.main.transform;
-        //_camera.rotation = Quaternion.Euler(Vector3.zero);
+        _camera.position += Vector3.one;
+        _camera.rotation = _player.rotation;
         initialPosition = transform.position;
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-
     }
 
     void Update()
     {
+        if (_gm.isPause) return;
         movecam();
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
@@ -111,6 +113,7 @@ public class Player_Control : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_gm.isPause) return;
         VisionFace();
         //AimEnemy(); // BROKE AAAAAAAAAAAAAAAAAA
         _EnemyList.Clear();
@@ -380,7 +383,7 @@ public class Player_Control : MonoBehaviour
         }
         if (other.CompareTag("Finish"))
         {
-            FindFirstObjectByType<game_manager>().GameFinish("Level Complete", true);
+            _gm.GameFinish();
         }
     }
     IEnumerator TakeDamage(Transform source, float knockPower)
@@ -408,6 +411,10 @@ public class Player_Control : MonoBehaviour
             _rb.velocity = Vector3.zero;
             _animation.resetAnimation();
             _live--;
+            if(_live < 0)
+            {
+                _gm.GameOver();
+            }
         }
         if (_rb.velocity.y <= -_VelosityMax)
         {
