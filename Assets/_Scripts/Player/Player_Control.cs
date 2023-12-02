@@ -88,6 +88,7 @@ public class Player_Control : MonoBehaviour
     }
     void Start()
     {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         _gm = FindFirstObjectByType<game_manager>();
         _rb = GetComponent<Rigidbody>();
         _player = transform;

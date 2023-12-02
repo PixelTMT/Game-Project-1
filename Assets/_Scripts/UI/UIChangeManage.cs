@@ -30,7 +30,7 @@ public class UIChangeManage : MonoBehaviour
             }
             else ui.UI.gameObject.SetActive(false);
         }
-        
+
     }
 
     public void OpenUIIndex(int index)
@@ -38,7 +38,7 @@ public class UIChangeManage : MonoBehaviour
         for (int i = 0; i < _ui.Length; i++)
         {
             var ui = _ui[i];
-            if(i == index)
+            if (i == index)
             {
                 ui.UI.gameObject.SetActive(true);
                 backUI.SetActive(ui.backTo != null);
@@ -49,6 +49,7 @@ public class UIChangeManage : MonoBehaviour
     }
     public void OpenUIName(string name)
     {
+        if(name == "") backUI.SetActive(false);
         for (int i = 0; i < _ui.Length; i++)
         {
             var ui = _ui[i];

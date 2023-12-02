@@ -67,6 +67,7 @@ public class game_manager : MonoBehaviour
         _UIC.OpenUIName("GameOver");
         _oUI.UpdateGameOver("Congrats");
         _oUI.UpdateScore(_player._score, _player.dateTime);
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
         _player.enabled = false;
         isGameOver = true;
     }

@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Test Map.unity
+    guid: c68e58a87e427634089af723ec100691
+  - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: b442551b9c027df47a5666f2dec34126
   - enabled: 1
-    path: Assets/Scenes/Test Map Ice.unity
+    path: Assets/Scenes/Test Map ice.unity
     guid: ff99bb6fc97103541bf1e764e4961437
-  - enabled: 1
-    path: Assets/Scenes/Test Map.unity
-    guid: c68e58a87e427634089af723ec100691
   - enabled: 1
     path: Assets/Scenes/Test Playground.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab

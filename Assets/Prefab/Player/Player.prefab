@@ -163,7 +163,7 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _audioListener: {fileID: 6612752246320229193}
   _cameraDistance: 10
-  _cameraSensitivity: 4
+  _cameraSensitivity: 2
   _camOffset: {x: 0, y: 0, z: 0}
   _camVision: {fileID: 5754591773499361365}
   _faceVision: {fileID: 5754591774254125032}
