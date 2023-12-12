@@ -55,7 +55,6 @@ public class Enemy2_Controller : MonoBehaviour
         yield return new WaitForSeconds(2);
         _Target = null;
     }
-
     public void ThrowRock()
     {
         GameObject ThownRock = Instantiate(_Rock, _transform.GetChild(0).Find("Rock").position, Quaternion.identity);
