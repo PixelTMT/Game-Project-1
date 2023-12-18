@@ -413,7 +413,8 @@ public class Player_Control : MonoBehaviour
             _rb.velocity = Vector3.zero;
             _animation.resetAnimation();
             _live--;
-            if(_live <= 0)
+            _PlayerSound.HurtSound();
+            if (_live <= 0)
             {
                 _gm.GameOver();
             }

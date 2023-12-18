@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TagExeption: Enemy
-  speed: 80
+  speed: 30
   _ImpactParticle: {fileID: 2442005141402185278, guid: 86e5dcc2a0d9e6d44b90059f65425798, type: 3}
   _ImpactParticleColor: {r: 0.46274513, g: 0.15686275, b: 0.7725491, a: 1}
 --- !u!1 &8546604220488552129

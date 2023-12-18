@@ -146,7 +146,7 @@ MonoBehaviour:
   value: 10
   collectedType: 0
   color: {r: 0.5686275, g: 0.40784317, b: 0.31764707, a: 1}
-  particle: {fileID: 1200605140763519173, guid: 635983d2dc500ad4d9f2286421e4cb7d, type: 3}
+  particle: {fileID: 1200605140763519173, guid: edc8485c531a8c647a779ea83f1e2221, type: 3}
 --- !u!114 &-3967365495287395627
 MonoBehaviour:
   m_ObjectHideFlags: 0

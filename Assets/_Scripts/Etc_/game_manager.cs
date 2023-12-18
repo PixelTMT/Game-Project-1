@@ -10,7 +10,8 @@ public class game_manager : MonoBehaviour
     [SerializeField] UIChangeManage _UIC;
     [SerializeField] Player_Control _player;
     [SerializeField] public PlayerUI _pUI;
-    [SerializeField] public GameOverUI _oUI;
+    [SerializeField] public GameOverUI _GameOverUI;
+    [SerializeField] public GameOverUI _GameFinishUI;
     [SerializeField] GameObject backLightPauseUI;
 
     [HideInInspector] public bool isPause = false;
@@ -56,8 +57,8 @@ public class game_manager : MonoBehaviour
     public void GameOver()
     {
         _UIC.OpenUIName("GameOver");
-        _oUI.UpdateGameOver("Game Over");
-        _oUI.UpdateScore(_player._score);
+        _GameOverUI.UpdateGameOver("Game Over");
+        _GameOverUI.UpdateScore(_player._score);
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         _player.enabled = false;
         isGameOver = true;
@@ -65,9 +66,9 @@ public class game_manager : MonoBehaviour
     }
     public void GameFinish()
     {
-        _UIC.OpenUIName("GameOver");
-        _oUI.UpdateGameOver("Congrats");
-        _oUI.UpdateScore(_player._score, _player.dateTime);
+        _UIC.OpenUIName("GameFinish");
+        _GameFinishUI.UpdateGameOver("Congrats");
+        _GameFinishUI.UpdateScore(_player._score, _player.dateTime);
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         _player.enabled = false;
         isGameOver = true;
