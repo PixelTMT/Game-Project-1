@@ -3,18 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    [SerializeField] string scene;
-    void Start()
+    public void ChangeScene(string name)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Tab))
-        {
-            SceneManager.LoadScene(scene);
-        }
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 }

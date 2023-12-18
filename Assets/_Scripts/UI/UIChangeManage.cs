@@ -66,4 +66,8 @@ public class UIChangeManage : MonoBehaviour
     {
         OpenUIName(currentUI.backTo.name);
     }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
